@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Checkerboard } from './checkerboard';
-import { Grid } from './grid';
 import { CanvasEngine } from './canvas-engine';
+import { Checkerboard } from './checkerboard';
+import { Grid, GridConfig } from './grid';
 
 @Injectable()
 export class PixelEditorEngine extends CanvasEngine {
   private readonly checkerboard = new Checkerboard();
   private readonly grid = new Grid();
 
-
   public override render(): void {
-    const { ctx, canvas, viewport, canvasSize } = this
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    const { ctx, canvas, viewport, canvasSize } = this;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = '#242225'
+    ctx.fillStyle = '#242225';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     const sx = viewport.offset.x;
@@ -24,8 +23,11 @@ export class PixelEditorEngine extends CanvasEngine {
     this.checkerboard.render(ctx, sx, sy, sw, sh, viewport.zoom);
     this.grid.render(ctx, viewport, canvasSize);
 
-    ctx.imageSmoothingEnabled = false
+    ctx.imageSmoothingEnabled = false;
   }
 
-
+  public changeGridConfig(conf: Partial<GridConfig>): void {
+    this.grid.config = { ...this.grid.config, ...conf };
+    this.markDirty();
+  }
 }

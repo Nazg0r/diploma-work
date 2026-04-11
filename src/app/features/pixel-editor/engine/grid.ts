@@ -1,5 +1,6 @@
 import { Viewport } from '../../../core/models/viewport.model';
 import { Size } from '../../../core/models/canvas.model';
+import { DEFAULT_GRID_CONFIG } from '../constants/grid-constants';
 
 export interface GridConfig {
   readonly color: string;
@@ -10,16 +11,8 @@ export interface GridConfig {
   readonly opacity: number;
 }
 
-export const DEFAULT_GRID_CONFIG: GridConfig = {
-    color: '#000000',
-    isEnable: false,
-    width: 1,
-    size: 8,
-    minZoom: 0.5,
-    opacity: 1,
-  }
 export class Grid {
-  config = {...DEFAULT_GRID_CONFIG};
+  public config = {...DEFAULT_GRID_CONFIG};
 
   public render(
     ctx: CanvasRenderingContext2D,

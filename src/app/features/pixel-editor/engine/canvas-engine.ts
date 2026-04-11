@@ -1,39 +1,27 @@
 import { Size, Vector2 } from '../../../core/models/canvas.model';
-import { Viewport } from '../../../core/models/viewport.model';
+import { DEFAULT_CANVAS_SIZE } from '../constants/canvas-constants';
+import { DEFAULT_VIEWPORT_CONFIG } from '../constants/viewport-constants';
+import { ZOOM_MAX, ZOOM_MIN, ZOOM_STEP } from '../constants/zoom-constatnst';
 
 export abstract class CanvasEngine {
-  MIN_SCALE = 0.25;
-  MAX_SCALE = 64;
-  ZOOM_STEP = 1.25;
-
   protected canvas!: HTMLCanvasElement;
   protected ctx!: CanvasRenderingContext2D;
 
-  protected viewport!: Viewport;
-
-  protected initialViewport: Viewport = {
-    offset: { x: 0, y: 0 },
-    zoom: 1,
-  };
-
-  // Default
-  protected canvasSize: Size = {
-    width: 128,
-    height: 128,
-  };
+  protected viewport = DEFAULT_VIEWPORT_CONFIG;
+  protected canvasSize = DEFAULT_CANVAS_SIZE;
 
   private isDirty = false;
   private isPanning: boolean = false;
   private isSpacePressed = false;
   private frameId: number | null = null;
   private lastPanPoint: Vector2 = { x: 0, y: 0 };
-  // start
 
-  public mount(canvas: HTMLCanvasElement): void {
+  public abstract render(): void;
+
+  public mount(canvas: HTMLCanvasElement, canvasSize: Size): void {
     this.canvas = canvas;
-    // question about this
+    this.canvasSize = canvasSize;
     this.ctx = canvas.getContext('2d', { willReadFrequently: false })!;
-    this.viewport = this.initialViewport;
 
     this.fitCanvas();
     this.centerCanvas();
@@ -95,11 +83,9 @@ export abstract class CanvasEngine {
     };
   }
 
-  // Zoom
-
   public zoomAt(focusPoint: Vector2, factor: number) {
     const rawZoom = this.viewport.zoom * factor;
-    const newZoom = Math.min(this.MAX_SCALE, Math.max(this.MIN_SCALE, rawZoom));
+    const newZoom = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, rawZoom));
 
     if (newZoom === this.viewport.zoom) return;
 
@@ -117,15 +103,15 @@ export abstract class CanvasEngine {
   }
 
   public zoomIn(focusPoint: Vector2) {
-    this.zoomAt(focusPoint ?? this.getCanvasCenter(), this.ZOOM_STEP);
+    this.zoomAt(focusPoint ?? this.getCanvasCenter(), ZOOM_STEP);
   }
 
   public zoomOut(focusPoint: Vector2) {
-    this.zoomAt(focusPoint ?? this.getCanvasCenter(), 1 / this.ZOOM_STEP);
+    this.zoomAt(focusPoint ?? this.getCanvasCenter(), 1 / ZOOM_STEP);
   }
 
   public setZoom(value: number, focusPoint?: Vector2) {
-    const zoom = Math.min(this.MAX_SCALE, Math.max(this.MIN_SCALE, value));
+    const zoom = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, value));
     this.zoomAt(focusPoint ?? this.getCanvasCenter(), zoom / this.viewport.zoom);
   }
 
@@ -137,8 +123,6 @@ export abstract class CanvasEngine {
     this.centerCanvas();
     this.markDirty();
   }
-
-  // Pan
 
   public pan(delta: Vector2) {
     this.viewport = {
@@ -161,8 +145,6 @@ export abstract class CanvasEngine {
     });
   }
 
-  public abstract render(): void;
-
   private readonly onWheel = (e: WheelEvent): void => {
     e.preventDefault();
     if (e.ctrlKey || e.metaKey) {
@@ -170,7 +152,7 @@ export abstract class CanvasEngine {
     } else if (e.shiftKey) {
       this.pan({ x: -e.deltaY, y: -e.deltaX });
     } else {
-      const factor = e.deltaY < 0 ? this.ZOOM_STEP : 1 / this.ZOOM_STEP;
+      const factor = e.deltaY < 0 ? ZOOM_STEP : 1 / ZOOM_STEP;
       this.zoomAt({ x: e.offsetX, y: e.offsetY }, factor);
     }
   };
@@ -178,7 +160,7 @@ export abstract class CanvasEngine {
   private readonly onPointerDown = (e: PointerEvent): void => {
     const isMiddleButton = e.button === 1;
     const isSpaceDrag = e.button === 0 && this.isSpacePressed;
-    console.log(this.isSpacePressed)
+    console.log(this.isSpacePressed);
 
     if (isMiddleButton || isSpaceDrag) {
       this.isPanning = true;
