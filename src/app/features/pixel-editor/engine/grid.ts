@@ -1,6 +1,6 @@
 import { Viewport } from '../../../core/models/viewport.model';
 import { Size } from '../../../core/models/canvas.model';
-import { DEFAULT_GRID_CONFIG } from '../constants/grid-constants';
+import { DEFAULT_GRID_CONFIG } from '../constants/grid.constants';
 
 export interface GridConfig {
   readonly color: string;

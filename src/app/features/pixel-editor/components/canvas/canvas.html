@@ -1,1 +1,15 @@
 <canvas class="pixel-editor-canvas" #canvas></canvas>
+<app-scrollbar
+  orientation="horizontal"
+  [canvasSize]="canvasWidth()"
+  [viewportSize]="viewportWidth()"
+  [state]="horizontalState()"
+  (offsetChange)="onHorizontalScroll($event)"
+/>
+<app-scrollbar
+  orientation="vertical"
+  [canvasSize]="canvasHeight()"
+  [viewportSize]="viewportHeight()"
+  [state]="verticalState()"
+  (offsetChange)="onVerticalScroll($event)"
+/>

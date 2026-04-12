@@ -1,7 +1,8 @@
 import { Size, Vector2 } from '../../../core/models/canvas.model';
-import { DEFAULT_CANVAS_SIZE } from '../constants/canvas-constants';
-import { DEFAULT_VIEWPORT_CONFIG } from '../constants/viewport-constants';
-import { ZOOM_MAX, ZOOM_MIN, ZOOM_STEP } from '../constants/zoom-constatnst';
+import { DEFAULT_CANVAS_SIZE } from '../constants/canvas.constants';
+import { DEFAULT_VIEWPORT_CONFIG } from '../constants/viewport.constants';
+import { ZOOM_MAX, ZOOM_MIN, ZOOM_STEP } from '../constants/zoom.constants';
+import { Viewport } from '../../../core/models/viewport.model';
 
 export abstract class CanvasEngine {
   protected canvas!: HTMLCanvasElement;
@@ -37,7 +38,15 @@ export abstract class CanvasEngine {
     }
   }
 
+  // hooks
+
+  public onViewportChange: ((viewport: Viewport) => void) | null = null;
+
   // helper commands
+
+  private notifyViewportChange(): void {
+    this.onViewportChange?.(this.viewport);
+  }
 
   public screenToCanvas(screen: Vector2): Vector2 {
     return {
@@ -98,7 +107,7 @@ export abstract class CanvasEngine {
       },
       zoom: newZoom,
     };
-
+    this.notifyViewportChange();
     this.markDirty();
   }
 
@@ -120,7 +129,20 @@ export abstract class CanvasEngine {
       ...this.viewport,
       zoom: 1,
     };
+
+    this.notifyViewportChange();
     this.centerCanvas();
+    this.markDirty();
+  }
+
+  public resize(): void {
+    this.fitCanvas();
+    this.markDirty();
+  }
+
+  public setOffset(offset: Vector2): void {
+    this.viewport = { ...this.viewport, offset };
+    this.notifyViewportChange();
     this.markDirty();
   }
 
@@ -132,6 +154,8 @@ export abstract class CanvasEngine {
         y: this.viewport.offset.y + delta.y,
       },
     };
+
+    this.notifyViewportChange();
     this.markDirty();
   }
 
@@ -179,8 +203,8 @@ export abstract class CanvasEngine {
       y: e.clientY - this.lastPanPoint.y,
     };
     this.lastPanPoint = {
-      x: e.offsetX,
-      y: e.offsetY,
+      x: e.clientX,
+      y: e.clientY,
     };
 
     this.pan(delta);
