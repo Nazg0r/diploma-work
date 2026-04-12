@@ -1,0 +1,21 @@
+@if (state().isVisible) {
+  <div
+    class="scrollbar-track"
+    [class.scrollbar-track--horizontal]="isHorizontal()"
+    [class.scrollbar-track--vertical]="!isHorizontal()"
+  (pointerdown)="onTrackPointerDown($event)"
+  (pointermove)="onPointerMove($event)"
+  (pointerup)="onPointerUp($event)"
+    #track
+  >
+<!--    (click)="onTrackClick($event)"-->
+    <div
+      class="scrollbar-thumb"
+      [ngStyle]="thumbStyle()"
+      (pointerdown)="onThumbPointerDown($event)"
+    ></div>
+<!--      (pointerdown)="onPointerDown($event)"-->
+<!--      (pointermove)="onPointerMove($event)"-->
+<!--      (pointerup)="onPointerUp($event)"-->
+  </div>
+}

@@ -1,0 +1,42 @@
+$track-size: 12px;
+$thumb-radius: 8px;
+$thumb-min-size: 24px;
+
+.scrollbar-track {
+  position: absolute;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0);
+
+  &--horizontal {
+    bottom: 2px;
+    left: 2px;
+    right: $track-size;
+    height: $track-size;
+  }
+
+  &--vertical {
+    top: 0;
+    right: 0;
+    bottom: $track-size;
+    width: $track-size;
+  }
+}
+
+.scrollbar-thumb {
+  position: absolute;
+  border-radius: $thumb-radius;
+  border: 2px solid var(--color-border);
+  background: var(--color-idle);
+  cursor: pointer;
+
+  &:hover {background: var(--color-hovered)}
+  &:active {background: var(--color-pressed)}
+
+  .scrollbar-track--horizontal & {
+    height: calc(100% - 2px);
+  }
+
+  .scrollbar-track--vertical & {
+    width: calc(100% - 2px);
+  }
+}
