@@ -1,8 +1,8 @@
 import { Size, Vector2 } from '../../../core/models/canvas.model';
+import { Viewport } from '../../../core/models/viewport.model';
 import { DEFAULT_CANVAS_SIZE } from '../constants/canvas.constants';
 import { DEFAULT_VIEWPORT_CONFIG } from '../constants/viewport.constants';
 import { ZOOM_MAX, ZOOM_MIN, ZOOM_STEP } from '../constants/zoom.constants';
-import { Viewport } from '../../../core/models/viewport.model';
 
 export abstract class CanvasEngine {
   protected canvas!: HTMLCanvasElement;
@@ -83,28 +83,28 @@ export abstract class CanvasEngine {
 
   private centerCanvas() {
     const { width, height } = this.canvasSize;
+    const rawOffset = {
+      x: Math.round((this.canvas.width - width * this.viewport.zoom) / 2),
+      y: Math.round((this.canvas.height - height * this.viewport.zoom) / 2),
+    };
     this.viewport = {
       ...this.viewport,
-      offset: {
-        x: Math.round((this.canvas.width - width * this.viewport.zoom) / 2),
-        y: Math.round((this.canvas.height - height * this.viewport.zoom) / 2),
-      },
+      offset: this.clampOffset(rawOffset),
     };
   }
 
   public zoomAt(focusPoint: Vector2, factor: number) {
     const rawZoom = this.viewport.zoom * factor;
     const newZoom = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, rawZoom));
-
     if (newZoom === this.viewport.zoom) return;
 
     const canvasPoint = this.screenToCanvas(focusPoint);
-
+    const rawOffset = {
+      x: focusPoint.x - canvasPoint.x * newZoom,
+      y: focusPoint.y - canvasPoint.y * newZoom,
+    };
     this.viewport = {
-      offset: {
-        x: focusPoint.x - canvasPoint.x * newZoom,
-        y: focusPoint.y - canvasPoint.y * newZoom,
-      },
+      offset: this.clampOffset(rawOffset),
       zoom: newZoom,
     };
     this.notifyViewportChange();
@@ -141,18 +141,45 @@ export abstract class CanvasEngine {
   }
 
   public setOffset(offset: Vector2): void {
-    this.viewport = { ...this.viewport, offset };
+    this.viewport = {
+      ...this.viewport,
+      offset: this.clampOffset(offset),
+    };
     this.notifyViewportChange();
     this.markDirty();
   }
 
+  private clampOffset(offset: Vector2): Vector2 {
+    const canvasWidth = this.canvasSize.width * this.viewport.zoom;
+    const canvasHeight = this.canvasSize.height * this.viewport.zoom;
+    const viewportWidth = this.canvas.width;
+    const viewportHeight = this.canvas.height;
+
+    return {
+      x: this.clampAxis(offset.x, canvasWidth, viewportWidth),
+      y: this.clampAxis(offset.y, canvasHeight, viewportHeight),
+    };
+  }
+
+  private clampAxis(offset: number, canvas: number, viewport: number): number {
+    if (viewport < canvas) {
+      const min = viewport - canvas;
+      const max = 0;
+      return Math.min(max, Math.max(min, offset));
+    }
+    const min = 0;
+    const max = viewport - canvas;
+    return Math.min(max, Math.max(min, offset));
+  }
+
   public pan(delta: Vector2) {
+    const raw = {
+      x: this.viewport.offset.x + delta.x,
+      y: this.viewport.offset.y + delta.y,
+    };
     this.viewport = {
       ...this.viewport,
-      offset: {
-        x: this.viewport.offset.x + delta.x,
-        y: this.viewport.offset.y + delta.y,
-      },
+      offset: this.clampOffset(raw),
     };
 
     this.notifyViewportChange();
