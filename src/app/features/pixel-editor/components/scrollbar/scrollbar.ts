@@ -1,7 +1,16 @@
 import { NgStyle } from '@angular/common';
-import { Component, computed, ElementRef, input, output, viewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  ElementRef,
+  input,
+  OnDestroy,
+  output,
+  viewChild,
+} from '@angular/core';
 import { ScrollbarOrientation, ScrollbarState } from '../../../../core/models/scrollbar.model';
 import { positionToOffset } from './scrollbar.utils';
+import { HOLD_TIMEOUT, INTERVAL_DELAY } from '../../constants/scrollbar.constants';
 
 @Component({
   selector: 'app-scrollbar',
@@ -9,9 +18,8 @@ import { positionToOffset } from './scrollbar.utils';
   templateUrl: './scrollbar.html',
   styleUrl: './scrollbar.scss',
 })
-export class Scrollbar {
+export class Scrollbar implements OnDestroy {
   readonly trackRef = viewChild<ElementRef<HTMLDivElement>>('track');
-
   readonly orientation = input.required<ScrollbarOrientation>();
   readonly state = input.required<ScrollbarState>();
   readonly viewportSize = input.required<number>();
@@ -22,21 +30,53 @@ export class Scrollbar {
   private isDragging = false;
   private dragStartMousePos = 0;
   private dragStartThumbPos = 0;
+  private stepInterval: ReturnType<typeof setInterval> | null = null;
 
   protected readonly isHorizontal = computed(() => this.orientation() === 'horizontal');
-
   protected readonly thumbSize = computed(() => {
     return this.state().size * 100;
   });
   protected readonly thumbPosition = computed(
     () => this.state().position * (100 - this.thumbSize()),
   );
-
   protected readonly thumbStyle = computed(() => {
     return this.isHorizontal()
       ? { width: `${this.thumbSize()}%`, left: `${this.thumbPosition()}%` }
       : { height: `${this.thumbSize()}%`, top: `${this.thumbPosition()}%` };
   });
+
+  private stepTowards(e: PointerEvent): void {
+    const trackRect = this.trackRef()!.nativeElement.getBoundingClientRect();
+
+    const clickPos = this.isHorizontal()
+      ? (e.clientX - trackRect.left) / trackRect.width
+      : (e.clientY - trackRect.top) / trackRect.height;
+
+    const currentPos = this.state().position;
+    const thumbSize = this.state().size;
+
+    const thumbStart = currentPos * (1 - thumbSize);
+    const thumbEnd = thumbStart + thumbSize;
+
+    if (clickPos >= thumbStart && clickPos <= thumbEnd) {
+      this.clearStepInterval();
+      return;
+    }
+
+    const step = thumbSize;
+    const direction = clickPos < thumbStart ? -1 : 1;
+    const newThumbPos = Math.min(1, Math.max(0, currentPos + direction * step));
+
+    const canvasOffset = positionToOffset(newThumbPos, this.canvasSize(), this.viewportSize());
+    this.offsetChange.emit(canvasOffset);
+  }
+
+  private clearStepInterval(): void {
+    if (this.stepInterval !== null) {
+      clearInterval(this.stepInterval);
+      this.stepInterval = null;
+    }
+  }
 
   protected onThumbPointerDown = (e: PointerEvent) => {
     e.preventDefault();
@@ -51,14 +91,18 @@ export class Scrollbar {
   protected onTrackPointerDown = (e: PointerEvent) => {
     if (this.isDragging) return;
 
-    const trackRect = this.trackRef()!.nativeElement.getBoundingClientRect();
-    const clickPos = this.isHorizontal()
-      ? (e.clientX - trackRect.left) / trackRect.width
-      : (e.clientY - trackRect.top) / trackRect.height;
+    this.stepTowards(e);
 
-    const newThumbPos = Math.min(1, Math.max(0, clickPos - this.state().size / 2));
-    const canvasOffset = positionToOffset(newThumbPos, this.canvasSize(), this.viewportSize());
-    this.offsetChange.emit(canvasOffset);
+    const holdTimeout = setTimeout(() => {
+      this.stepInterval = setInterval(() => this.stepTowards(e), INTERVAL_DELAY);
+    }, HOLD_TIMEOUT);
+
+    const onUp = () => {
+      clearTimeout(holdTimeout);
+      this.clearStepInterval();
+      window.removeEventListener('pointerup', onUp);
+    };
+    window.addEventListener('pointerup', onUp);
   };
 
   protected onPointerMove = (e: PointerEvent) => {
@@ -90,4 +134,8 @@ export class Scrollbar {
     this.isDragging = false;
     this.trackRef()!.nativeElement.releasePointerCapture(e.pointerId);
   };
+
+  ngOnDestroy(): void {
+    this.clearStepInterval();
+  }
 }
