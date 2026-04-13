@@ -29,8 +29,12 @@ $thumb-min-size: 24px;
   background: var(--color-idle);
   cursor: pointer;
 
-  &:hover {background: var(--color-hovered)}
-  &:active {background: var(--color-pressed)}
+  &:hover {
+    background: var(--color-hovered);
+  }
+  &--active {
+    background: var(--color-pressed);
+  }
 
   .scrollbar-track--horizontal & {
     height: calc(100% - 2px);

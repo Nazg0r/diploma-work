@@ -86,6 +86,7 @@ export class Scrollbar implements OnDestroy {
     this.dragStartMousePos = this.isHorizontal() ? e.clientX : e.clientY;
     this.dragStartThumbPos = this.state().position;
     this.trackRef()!.nativeElement.setPointerCapture(e.pointerId);
+    this.getThumb(e)?.classList.add('scrollbar-thumb--active');
   };
 
   protected onTrackPointerDown = (e: PointerEvent) => {
@@ -133,9 +134,14 @@ export class Scrollbar implements OnDestroy {
     if (!this.isDragging) return;
     this.isDragging = false;
     this.trackRef()!.nativeElement.releasePointerCapture(e.pointerId);
+    this.getThumb(e)?.classList.remove('scrollbar-thumb--active');
   };
 
   ngOnDestroy(): void {
     this.clearStepInterval();
+  }
+
+  private getThumb(e: PointerEvent): HTMLElement | null {
+    return this.trackRef()!.nativeElement.querySelector('.scrollbar-thumb');
   }
 }
