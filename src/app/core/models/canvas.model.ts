@@ -14,3 +14,8 @@ export interface Rect {
   readonly width: number;
   readonly height: number;
 }
+
+export interface CanvasInputHandlerOptions {
+  onZoom: (focusPoint: Vector2, factor: number) => void;
+  onPan: (delta: Vector2) => void;
+}

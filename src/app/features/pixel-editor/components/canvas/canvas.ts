@@ -64,8 +64,8 @@ export class Canvas implements AfterViewInit, OnDestroy {
   });
 
   ngAfterViewInit(): void {
-    this.engine.onViewportChange = (vp) => this.viewport.set(vp);
     this.engine.mount(this.canvasRef()!.nativeElement, this.store.canvasSize());
+    this.engine.onViewportChange = (vp) => this.viewport.set(vp);
     this.watchResize();
 
     effect(() => {
