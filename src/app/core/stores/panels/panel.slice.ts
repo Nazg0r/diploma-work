@@ -15,7 +15,7 @@ export const initialPanelSlices: PanelSlice = {
       title: 'layers',
       position: { x: window.innerWidth - 256, y: 125 },
       size: { width: 240, height: 270 },
-      minSize: { width: 200, height: 200 },
+      minSize: { width: 240, height: 270 },
       maxSize: { width: 400, height: 400 },
       zIndex: 100,
     },

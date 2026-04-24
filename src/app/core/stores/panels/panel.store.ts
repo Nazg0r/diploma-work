@@ -1,8 +1,8 @@
 import { computed } from '@angular/core';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import { Size, Vector2 } from '../../models/canvas.model';
-import { PanelId, PanelState } from '../../models/panel.model';
-import { initialPanelSlices, PanelSlice } from './panel.slice';
+import { PanelId, PanelModel, PanelState } from '../../models/panel.model';
+import { initialPanelSlices } from './panel.slice';
 import * as updaters from './panel.updaters';
 
 export const PanelStore = signalStore(
@@ -11,8 +11,8 @@ export const PanelStore = signalStore(
   },
   withState(initialPanelSlices),
   withComputed((store) => {
-    function filterPanelsByState(state: PanelState): PanelSlice[] {
-      return Object.values(store.panels).filter((pair) => (pair.state = state));
+    function filterPanelsByState(state: PanelState): PanelModel[] {
+      return Object.values(store.panels()).filter((panel) => panel.state === state);
     }
 
     return {
@@ -24,9 +24,8 @@ export const PanelStore = signalStore(
     };
   }),
   withMethods((store) => {
-
     return {
-      expend: (panelId: PanelId) => patchState(store, updaters.expandPanel(panelId)),
+      expand: (panelId: PanelId) => patchState(store, updaters.expandPanel(panelId)),
       collapse: (panelId: PanelId) => patchState(store, updaters.collapsePanel(panelId)),
       hide: (panelId: PanelId) => patchState(store, updaters.hidePanel(panelId)),
       deactivate: (panelId: PanelId) => patchState(store, updaters.deactivatePanel(panelId)),
@@ -35,6 +34,7 @@ export const PanelStore = signalStore(
         patchState(store, updaters.updatePosition(panelId, position)),
       updateSize: (panelId: PanelId, size: Size) =>
         patchState(store, updaters.updateSize(panelId, size)),
+      resetSize: (panelId: PanelId) => patchState(store, updaters.resetSize(panelId)),
     };
   }),
 );
