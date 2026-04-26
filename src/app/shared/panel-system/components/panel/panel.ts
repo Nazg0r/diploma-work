@@ -88,10 +88,10 @@ export class Panel {
 
     if (meta.positioning === 'bottom-center') {
       let bottomDistance = this.viewportService.height() - position.y - size.height;
-          return {
-            bottom: `${bottomDistance}px`,
-            top: 'auto',
-          };
+      return {
+        bottom: `${bottomDistance}px`,
+        top: 'auto',
+      };
     }
 
     return {
@@ -112,6 +112,16 @@ export class Panel {
   protected readonly arrowStyle = computed(() => ({
     transform: `rotate(${this.arrowRotation()}deg)`,
   }));
+
+  protected readonly hideButtonStyle = computed(() => {
+    const isLeftAligned = this.anchorMeta().positioning === 'top-left';
+
+    return {
+      left: isLeftAligned ? 0 : 'auto',
+      right: isLeftAligned ? 'auto' : 0,
+      transform: isLeftAligned ? 'rotate(180deg)' : 'none',
+    };
+  });
 
   protected readonly headerInfoStyle = computed(() => ({
     flexDirection: this.anchorMeta().headerFlexDirection,
