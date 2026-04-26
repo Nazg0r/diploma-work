@@ -1,9 +1,17 @@
-import { computed } from '@angular/core';
-import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
+import { computed, inject } from '@angular/core';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withHooks,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
 import { Size, Vector2 } from '../../models/canvas.model';
 import { PanelId, PanelModel, PanelState } from '../../models/panel.model';
 import { initialPanelSlices } from './panel.slice';
 import * as updaters from './panel.updaters';
+import { PanelAnchoringService } from '../../services/panel-anchoring.service';
 
 export const PanelStore = signalStore(
   {
@@ -36,5 +44,17 @@ export const PanelStore = signalStore(
         patchState(store, updaters.updateSize(panelId, size)),
       resetSize: (panelId: PanelId) => patchState(store, updaters.resetSize(panelId)),
     };
+  }),
+  withHooks({
+    onInit(store) {
+      const anchoring = inject(PanelAnchoringService);
+
+      const allPanels = Object.values(store.panels());
+
+      allPanels.forEach((panel) => {
+        const position = anchoring.getAnchoredPosition(panel, allPanels);
+        patchState(store, updaters.updatePosition(panel.id, position));
+      });
+    },
   }),
 );
