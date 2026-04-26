@@ -13,9 +13,13 @@ html, body {
   overflow: hidden;
 }
 
+svg {
+  display: block;
+}
+
 body {
   font-family: var(--font-content), sans-serif;
   font-size: var(--font-size-md);
-  color: var(--color-texe-primary);
+  color: var(--color-text-primary);
   background: var(--color-bg-app);
 }
