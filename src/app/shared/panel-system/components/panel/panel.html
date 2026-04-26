@@ -1,0 +1,54 @@
+@let p = panel();
+@let isExp = isExpanded();
+@let isHid = isHidden();
+
+@if (isExp) {
+  @for (edge of ['n', 's', 'e', 'w', 'en', 'es', 'wn', 'ws']; track edge) {
+    <div
+      class="resize-handle"
+      [class]="'resize-handle--' + edge"
+      [appPanelResize]="edge"
+      [minSize]="p.minSize"
+      [maxSize]="p.maxSize"
+      (resizeChange)="onSizeChange($event)"
+    ></div>
+  }
+}
+
+<div class="panel-header" (pointerdown)="onHeaderClick()" [style]="headerInfoStyle()">
+  <app-icon
+    [name]="'collapse'"
+    [size]="SM_ICON_SIZE"
+    class="panel-header__arrow"
+    [style]="arrowStyle()"
+  />
+
+  <div class="panel-header__info" [style]="headerInfoStyle()">
+    <app-icon [name]="p.icon" [size]="LG_ICON_SIZE" />
+    <span class="panel-header__title">{{ p.title }}</span>
+  </div>
+
+  <app-icon
+    name="grab"
+    [size]="MD_ICON_SIZE"
+    class="panel-header__drag"
+    appPanelDrag
+    [startPos]="p.position"
+    (dragMove)="onPositionChange($event)"
+  />
+</div>
+
+@if (!isHid) {
+  <app-icon
+    class="panel__hide-btn"
+    name="arrow2"
+    [size]="MD_ICON_SIZE"
+    (pointerdown)="onHideClick($event)"
+  />
+}
+
+@if (isExp) {
+  <div class="panel-content">
+    <ng-content />
+  </div>
+}
