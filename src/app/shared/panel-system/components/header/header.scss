@@ -17,6 +17,21 @@
   z-index: 50;
 }
 
+.main-menu {
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-hovered);
+  }
+}
+
+.main-menu__active {
+  filter: drop-shadow(-2px 2px 0 var(--color-shadow-accent));
+  &:hover {
+    color: var(--color-text-primary);
+  }
+}
+
 .project, .change-mode {
   display: flex;
   position: relative;
