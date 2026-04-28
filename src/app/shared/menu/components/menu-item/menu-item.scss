@@ -1,0 +1,44 @@
+.menu-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  padding: 1px var(--space-3);
+  min-width: 120px;
+
+  &:hover, &--open  {
+    background-color: var(--color-accent);
+  }
+
+  &__label {
+    transform: translateY(-0.5px);
+  }
+
+  &--disabled {
+    color: var(--color-text-disabled);
+    cursor: default;
+    &:hover { background: transparent; }
+  }
+
+  &__shortcut {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-left: var(--space-4);
+  }
+
+  &__arrow {
+    transform: rotate(-90deg);
+  }
+
+  &__submenu {
+    position: absolute;
+    top: calc(0px - var(--size-border) - var(--space-2));
+    left: calc(100% + var(--space-2));
+    min-width: 160px;
+  }
+}
+

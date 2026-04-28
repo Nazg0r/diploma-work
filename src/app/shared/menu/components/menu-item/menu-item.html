@@ -1,0 +1,32 @@
+@let itm = item();
+
+<li
+  class="menu-item"
+  (click)="onClick()"
+  [class.menu-item--has-children]="hasChildren()"
+  [class.menu-item--open]="isOpen()"
+  [class.menu-item--disabled]="itm.isDisabled"
+  (pointerenter)="onMouseEnter()"
+>
+  @if (itm.icon) {
+    <app-icon class="menu-item__icon" [name]="itm.icon!" [size]="SM_ICON_SIZE"></app-icon>
+  }
+  <span class="menu-item__label">{{ itm.label }}</span>
+
+  @if (itm.shortcut) {
+    <span class="menu-item__shortcut"> {{ itm.shortcut }} </span>
+  }
+
+  @if (hasChildren()) {
+    <app-icon class="menu-item__arrow" [name]="'collapse'" [size]="SM_ICON_SIZE"></app-icon>
+  }
+
+  @if (hasChildren() && isOpen()) {
+    <app-menu-list
+      class="menu-item__submenu"
+      [items]="itm.children!"
+      [depth]="depth() + 1"
+      (itemClick)="onSubmenuItemClick($event)"
+    ></app-menu-list>
+  }
+</li>

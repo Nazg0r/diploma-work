@@ -1,0 +1,12 @@
+<ul class="menu-list">
+  @for (item of items(); track item.id) {
+    <app-menu-item
+      (itemClick)="onItemClick($event)"
+      [item]="item"
+      [depth]="depth()"
+    ></app-menu-item>
+    @if (item.dividerAfter) {
+      <li class="menu-divider"></li>
+    }
+  }
+</ul>

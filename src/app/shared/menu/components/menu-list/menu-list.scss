@@ -1,0 +1,15 @@
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+  background-color: var(--color-bg-bar);
+  border: var(--size-border) solid var(--color-border);
+  padding: var(--space-2) 0;
+  margin: 0;
+}
+
+.menu-divider {
+  height: 2px;
+  background: var(--color-border);
+  margin: var(--space-1) 0;
+}
