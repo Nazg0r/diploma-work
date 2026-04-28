@@ -1,12 +1,13 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { Canvas } from './features/pixel-editor/components/canvas/canvas';
-import { Panel } from './shared/panel-system/components/panel/panel';
+import { Component, inject, OnInit } from '@angular/core';
 import { SpriteService } from './core/services/sprite.service';
+import { Canvas } from './features/pixel-editor/components/canvas/canvas';
+import { CanvasControls } from './shared/panel-system/components/canvas-controls/canvas-controls';
+import { Header } from './shared/panel-system/components/header/header';
+import { Panel } from './shared/panel-system/components/panel/panel';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Canvas, Panel],
+  imports: [Canvas, Panel, CanvasControls, Header],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
