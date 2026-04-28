@@ -23,3 +23,13 @@ body {
   color: var(--color-text-primary);
   background: var(--color-bg-app);
 }
+
+.separation-line {
+  width: 2px;
+  height: 32px;
+  background-color: var(--color-border);
+}
+
+ul {
+  list-style: none;
+}
