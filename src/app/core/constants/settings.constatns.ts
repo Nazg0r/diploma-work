@@ -1,0 +1,2 @@
+export const HISTORY_SIZE_MAX_LIMIT = 500;
+export const HISTORY_SIZE_MIN_LIMIT = 10;
