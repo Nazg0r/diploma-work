@@ -1,13 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { SpriteService } from './core/services/sprite.service';
-import { Canvas } from './features/pixel-editor/components/canvas/canvas';
-import { CanvasControls } from './shared/panel-system/components/canvas-controls/canvas-controls';
-import { Header } from './shared/panel-system/components/header/header';
-import { Panel } from './shared/panel-system/components/panel/panel';
+import { LevelEditorMode } from './features/level-editor/components/level-editor-mode/level-editor-mode';
+import { PixelEditorMode } from './features/pixel-editor/components/pixel-editor-mode/pixel-editor-mode';
 
 @Component({
   selector: 'app-root',
-  imports: [Canvas, Panel, CanvasControls, Header],
+  imports: [PixelEditorMode, LevelEditorMode],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
