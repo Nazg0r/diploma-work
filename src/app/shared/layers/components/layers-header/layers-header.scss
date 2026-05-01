@@ -1,0 +1,20 @@
+:host {
+  display: flex;
+  gap: var(--gap-lg);
+  align-items: center;
+  background-color: var(--color-bg-info);
+  padding: var(--space-1) var(--space-2);
+}
+
+.toggles {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--gap-md);
+  user-select: none;
+
+  &__label {
+    font-size: var(--font-size-md);
+    color: var(--color-text-primary);
+  }
+}

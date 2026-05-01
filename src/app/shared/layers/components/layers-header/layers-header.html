@@ -1,0 +1,9 @@
+<label class="toggles">
+  <span class="toggles__label">Hide All</span>
+  <app-checkbox (change)="toggleHideAll()" [checked]="toggleAllHiddenOn()"></app-checkbox>
+</label>
+
+<label class="toggles">
+  <span class="toggles__label">Lock All</span>
+  <app-checkbox (change)="toggleLockAll()" [checked]="toggleLockAllOn()"></app-checkbox>
+</label>
