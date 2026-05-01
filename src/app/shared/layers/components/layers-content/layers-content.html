@@ -1,0 +1,9 @@
+<app-layers-header></app-layers-header>
+
+<div class="layers-tree">
+  @for (node of rootChildren(); track node.id) {
+    <app-layer-node [nodeRef]="node" [depth]="0"></app-layer-node>
+  }
+</div>
+
+<app-layers-footer></app-layers-footer>
