@@ -9,9 +9,9 @@ import { Component, input } from '@angular/core';
     'style.display': 'block',
     '[style.width]': 'size()',
     '[style.height]': 'size()',
-  }
+  },
 })
 export class Icon {
-  public readonly name = input.required<string>()
-  public readonly size = input<number>(32)
+  public readonly name = input.required<string>();
+  public readonly size = input<number>(32);
 }
