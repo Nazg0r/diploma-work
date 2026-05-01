@@ -1,5 +1,5 @@
 import { PartialStateUpdater } from '@ngrx/signals';
-import { BlendMode, Layer, LayerCollection, NodeRef } from '../../models/layers';
+import { BlendMode, Layer, LayerCollection, LayerItemKind, NodeRef } from '../../models/layers';
 import * as helper from './layer-tree.helpers';
 import { LayerSlice } from './layer.slice';
 
@@ -38,10 +38,11 @@ export function removeLayer<T extends Layer>(id: string): PartialStateUpdater<La
     if (!layer) return {};
 
     const { [id]: _, ...rest } = store.layers;
+    const lastLayer = Object.values(rest).at(-1);
 
     return {
       layers: rest,
-      activeLayerId: store.activeLayerId === id ? null : store.activeLayerId,
+      activeLayerId: lastLayer ? lastLayer.id : null,
       ...helper.removeFromParent(id, layer.parentId, store),
     };
   };
@@ -98,10 +99,23 @@ export function addCollection<T extends Layer>(
 ): PartialStateUpdater<LayerSlice<T>> {
   return (store) => {
     const ref: NodeRef = { type: 'collection', id: collection.id };
+    const parentId = collection.parentId;
+
+    if (parentId === null) {
+      return {
+        rootChildren: [...store.rootChildren, ref],
+        collections: { ...store.collections, [collection.id]: collection },
+      };
+    }
+    const parent = store.collections[parentId];
+    if (!parent) return {};
 
     return {
-      collections: { ...store.collections, [collection.id]: collection },
-      ...helper.updateChildren(collection.parentId, store, (children) => [...children, ref]),
+      collections: {
+        ...store.collections,
+        [collection.id]: collection,
+        [parentId]: { ...parent, children: [...parent.children, ref] },
+      },
     };
   };
 }
@@ -201,5 +215,16 @@ export function moveNode<T extends Layer>(
           };
 
     return { ...removedFromOldParent, ...addedToNewParent, ...nodeUpdate };
+  };
+}
+
+export function increaseCount<T extends Layer>(
+  kind: LayerItemKind,
+): PartialStateUpdater<LayerSlice<T>> {
+  return (store) => {
+    const current = store.counters[kind];
+    return {
+      counters: { ...store.counters, [kind]: current + 1 },
+    };
   };
 }

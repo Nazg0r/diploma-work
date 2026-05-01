@@ -1,11 +1,11 @@
 import { computed } from '@angular/core';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
-import { BlendMode, LayerCollection, LevelLayer, NodeRef } from '../../models/layers';
+import { BlendMode, LayerCollection, LayerItemKind, LevelLayer, NodeRef, PixelLayer } from '../../models/layers';
 import { createInitialLayerSlice } from './layer.slice';
 import * as updaters from './layer.updaters';
+import { NAME_FORMATTERS } from '../../constants/layers.constants';
 
-export const LayerLayerStore = signalStore(
-  { providedIn: 'root' },
+export const LevelLayerStore = signalStore(
   withState(createInitialLayerSlice<LevelLayer>()),
   withComputed((store) => {
     return {
@@ -64,6 +64,12 @@ export const LayerLayerStore = signalStore(
       getLayer: (id: string) => store.layers()[id] ?? null,
 
       getCollection: (id: string) => store.collections()[id] ?? null,
+
+      getLayerItemName: (kind: LayerItemKind) => {
+        patchState(store, updaters.increaseCount<LevelLayer>(kind));
+        const order = store.counters()[kind];
+        return NAME_FORMATTERS[kind](order);
+      },
     };
   }),
 );
