@@ -1,0 +1,31 @@
+:host {
+  display: block;
+  border: var(--size-border) solid var(--color-border);
+  background-color: var(--color-idle);
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+
+  &:hover {
+    background-color: var(--color-hovered);
+  }
+}
+
+.checkmark {
+  width: calc(100% - var(--space-1));
+  height: calc(100% - var(--space-1));
+  background-color: var(--color-text-primary);
+  transform: translateX(calc(var(--space-1) / 2))
+  translateY(calc(var(--space-1) / 2));
+  position: relative;
+}
+
+.checkmark__hole {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background-color: var(--color-idle);
+  width: var(--space-1);
+  height: var(--space-1);
+  transform: translateX(-50%) translateY(-50%);
+}
