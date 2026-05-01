@@ -1,0 +1,30 @@
+:host {
+  display: flex;
+  gap: var(--gap-sm);
+  padding: var(--space-1);
+  border-top: var(--size-border) solid var(--color-border);
+  justify-content: center;
+  align-items: center;
+}
+.layers-footer__icon {
+  cursor: pointer;
+  &:hover {
+    color: var(--color-hovered);
+  }
+  &:active {
+    color: var(--color-accent);
+  }
+}
+
+.arrow-up {
+  transform: rotate(-90deg);
+}
+
+.arrow-down {
+  transform: rotate(90deg);
+}
+
+.disabled {
+  pointer-events: none;
+  color: var(--color-text-disabled);
+}

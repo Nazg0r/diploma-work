@@ -1,0 +1,41 @@
+<app-icon name="plus" class="layers-footer__icon" [size]="MD_ICON_SIZE" (click)="addLayer()" />
+
+<app-icon
+  name="copy"
+  class="layers-footer__icon"
+  [class.disabled]="!hasActiveLayer()"
+  [size]="MD_ICON_SIZE"
+  (click)="duplicateLayer()"
+/>
+
+<app-icon
+  name="merge"
+  class="layers-footer__icon"
+  [class.disabled]="!hasActiveLayer()"
+  [size]="MD_ICON_SIZE"
+  (click)="mergeLayer()"
+/>
+
+<app-icon
+  name="arrow2"
+  class="layers-footer__icon arrow-up"
+  [class.disabled]="!hasActiveLayer()"
+  [size]="MD_ICON_SIZE"
+  (click)="moveUp()"
+/>
+
+<app-icon
+  name="arrow2"
+  class="layers-footer__icon arrow-down"
+  [class.disabled]="!hasActiveLayer()"
+  [size]="MD_ICON_SIZE"
+  (click)="moveDown()"
+/>
+
+<app-icon
+  name="trash"
+  class="layers-footer__icon"
+  [class.disabled]="!hasActiveLayer()"
+  [size]="MD_ICON_SIZE"
+  (click)="deleteLayer()"
+/>
