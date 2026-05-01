@@ -4,7 +4,7 @@ import { Command } from '../command.interface';
 interface LayerStoreApi {
   addLayer(layer: Layer): void;
   removeLayer(id: string): void;
-  getLayer(id: string): Layer;
+  getLayer(id: string): Layer | null;
 }
 
 export class RemoveLayerCommand implements Command {
