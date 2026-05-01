@@ -1,0 +1,20 @@
+<div class="collection-item">
+  <div class="collection-item__header" [style]="indentStyle()" (click)="toggleCollapse()">
+    <app-icon
+      [name]="'collapse'"
+      [size]="SM_ICON_SIZE"
+      class="collection-item__collapse"
+      [class.collapsed]="collection().isCollapsed"
+    />
+    <app-icon name="folder" [size]="MD_ICON_SIZE" class="collection-item__icon" />
+    <span class="collection-item__name">{{ collection().name }}</span>
+  </div>
+</div>
+
+@if (!collection().isCollapsed) {
+  <div class="collection-item__children">
+    @for (child of collection().children; track child.id) {
+      <app-layer-node [nodeRef]="child" [depth]="depth() + 1" />
+    }
+  </div>
+}

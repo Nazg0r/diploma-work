@@ -1,0 +1,9 @@
+@if (isLayer()) {
+  @if (layer(); as l) {
+    <app-layer-item [layer]="l" [depth]="depth()" />
+  }
+} @else {
+  @if (collection(); as c) {
+    <app-collection-item [collection]="c" [depth]="depth()" />
+  }
+}

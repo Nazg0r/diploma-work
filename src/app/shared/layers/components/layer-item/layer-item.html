@@ -1,0 +1,20 @@
+<app-icon
+  class="layer-item__icon"
+  [name]="layer().isVisible ? 'eye-open' : 'eye-closed'"
+  [size]="MD_ICON_SIZE"
+  (click)="toggleVisibility($event)"
+/>
+<div class="layer-item__thumbnail"></div>
+<span class="layer-item__name">{{ layer().name }}</span>
+<app-icon
+  class="layer-item__icon"
+  [name]="layer().isLocked ? 'lock-closed' : 'lock-open'"
+  [size]="MD_ICON_SIZE"
+  (click)="toggleLock($event)"
+/>
+<app-icon
+  class="layer-item__icon"
+  name="settings"
+  [size]="MD_ICON_SIZE"
+  (click)="openSettings($event)"
+/>
