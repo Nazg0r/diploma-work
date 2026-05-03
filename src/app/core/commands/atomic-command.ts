@@ -1,4 +1,4 @@
-import { Command } from './command.interface';
+import { Command } from '../models/commands/command.model';
 
 export abstract class AtomicCommand implements Command {
   public abstract readonly id: string;

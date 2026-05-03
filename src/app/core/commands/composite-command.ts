@@ -1,4 +1,4 @@
-import { Command } from './command.interface';
+import { Command } from '../models/commands/command.model';
 
 export class CompositeCommand implements Command {
   public readonly id: string = 'composite';

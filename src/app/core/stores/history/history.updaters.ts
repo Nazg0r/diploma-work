@@ -1,6 +1,6 @@
 import { PartialStateUpdater } from '@ngrx/signals';
-import { Command, isMergeable, MergeableCommand } from '../../commands/command.interface';
 import { HistorySlice } from './history.slice';
+import { Command, isMergeable, MergeableCommand } from '../../models/commands/command.model';
 
 export function execute(command: Command, maxSize: number): PartialStateUpdater<HistorySlice> {
   return (store) => {

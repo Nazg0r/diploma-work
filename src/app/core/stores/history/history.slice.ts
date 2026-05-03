@@ -1,4 +1,4 @@
-import { Command } from '../../commands/command.interface';
+import { Command } from '../../models/commands/command.model';
 
 export interface HistorySlice {
   past: Command[];

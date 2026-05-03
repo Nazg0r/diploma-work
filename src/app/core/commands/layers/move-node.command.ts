@@ -1,6 +1,6 @@
+import { Command } from '../../models/commands/command.model';
 import { Layer, NodeRef } from '../../models/layers';
 import { LayerStore } from '../../stores/layers';
-import { Command } from '../command.interface';
 
 export class MoveNodeCommand implements Command {
   public readonly id: string = 'move-node';

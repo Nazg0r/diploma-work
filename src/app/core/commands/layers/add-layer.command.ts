@@ -1,4 +1,4 @@
-import { Command } from '../command.interface';
+import { Command } from '../../models/commands/command.model';
 import { Layer } from '../../models/layers';
 
 interface LayerStoreApi {

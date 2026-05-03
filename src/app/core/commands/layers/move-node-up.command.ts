@@ -1,5 +1,5 @@
+import { Command } from '../../models/commands/command.model';
 import { Layer, LayerCollection, NodeRef } from '../../models/layers';
-import { Command } from '../command.interface';
 
 interface LayerStoreApi {
   getLayer(id: string): Layer | null;

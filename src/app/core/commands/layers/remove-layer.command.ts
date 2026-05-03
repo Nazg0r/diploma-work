@@ -1,5 +1,5 @@
+import { Command } from '../../models/commands/command.model';
 import { Layer } from '../../models/layers';
-import { Command } from '../command.interface';
 
 interface LayerStoreApi {
   addLayer(layer: Layer): void;

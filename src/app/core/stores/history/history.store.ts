@@ -1,9 +1,9 @@
 import { computed, inject } from '@angular/core';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
-import { Command } from '../../commands/command.interface';
 import { SettingsStore } from '../settings/settings.store';
 import { initialHistory } from './history.slice';
 import * as updaters from './history.updaters';
+import { Command } from '../../models/commands/command.model';
 
 export const HistoryStore = signalStore(
   { providedIn: 'root' },
