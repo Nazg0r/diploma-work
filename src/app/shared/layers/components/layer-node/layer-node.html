@@ -1,9 +1,9 @@
 @if (isLayer()) {
   @if (layer(); as l) {
-    <app-layer-item [layer]="l" [depth]="depth()" />
+    <app-layer-item [layer]="l" [depth]="depth()" (dropNode)="onDrop($event)" />
   }
 } @else {
   @if (collection(); as c) {
-    <app-collection-item [collection]="c" [depth]="depth()" />
+    <app-collection-item [collection]="c" [depth]="depth()" (dropNode)="onDrop($event)" />
   }
 }

@@ -1,17 +1,19 @@
-import { Component, computed, forwardRef, inject, input } from '@angular/core';
+import { Component, computed, forwardRef, inject, input, output } from '@angular/core';
 import { LayerNode } from '../';
 import {
   COLLECTION_ITEM_OFFSET,
   NODE_ITEM_OFFSET,
 } from '../../../../core/constants/layers.constants';
 import { MD_ICON_SIZE, SM_ICON_SIZE } from '../../../../core/constants/size.constants';
-import { LayerCollection } from '../../../../core/models/layers';
+import { DropEvent, LayerCollection, NodeRef } from '../../../../core/models/layers';
 import { LAYER_STORE } from '../../../../core/stores/layers';
 import { Icon } from '../../../icons/components/icon/icon';
+import { LayerDragDirective } from '../../directives/layer-drag.directive';
+import { LayerDropIndicator } from '../../directives/layer-drop-indicator.directive';
 
 @Component({
   selector: 'app-collection-item',
-  imports: [Icon, forwardRef(() => LayerNode)],
+  imports: [Icon, forwardRef(() => LayerNode), LayerDragDirective, LayerDropIndicator],
   templateUrl: './collection-item.html',
   styleUrl: './collection-item.scss',
 })
@@ -21,14 +23,24 @@ export class CollectionItem {
 
   public readonly collection = input.required<LayerCollection>();
   public readonly depth = input.required<number>();
+  public readonly dropNode = output<DropEvent>();
 
   private readonly store = inject(LAYER_STORE);
 
+  protected readonly children = computed(() => [...this.collection().children].reverse());
   protected readonly indentStyle = computed(() => ({
     paddingLeft: `${this.depth() * NODE_ITEM_OFFSET + COLLECTION_ITEM_OFFSET}px`,
+  }));
+  protected readonly nodeRef = computed<NodeRef>(() => ({
+    type: 'collection',
+    id: this.collection().id,
   }));
 
   protected toggleCollapse(): void {
     this.store.toggleCollectionCollapse(this.collection().id);
+  }
+
+  protected onDrop(event: DropEvent): void {
+    this.dropNode.emit(event);
   }
 }

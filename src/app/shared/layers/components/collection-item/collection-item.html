@@ -1,4 +1,10 @@
-<div class="collection-item">
+<div
+  class="collection-item"
+  [appLayerDrag]="nodeRef()"
+  [appLayerDropIndicator]="nodeRef()"
+  [canAcceptInto]="true"
+  (dropNode)="onDrop($event)"
+>
   <div class="collection-item__header" [style]="indentStyle()" (click)="toggleCollapse()">
     <app-icon
       [name]="'collapse'"
@@ -13,8 +19,8 @@
 
 @if (!collection().isCollapsed) {
   <div class="collection-item__children">
-    @for (child of collection().children; track child.id) {
-      <app-layer-node [nodeRef]="child" [depth]="depth() + 1" />
+    @for (child of children(); track child.id) {
+      <app-layer-node [nodeRef]="child" [depth]="depth() + 1" (dropNode)="onDrop($event)" />
     }
   </div>
 }

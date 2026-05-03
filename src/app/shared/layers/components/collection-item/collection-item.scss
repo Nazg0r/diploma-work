@@ -1,7 +1,7 @@
 $collapse-transition: transform 100ms ease;
 
 .collection-item {
-  margin-bottom: var(--gap-sm);
+  position: relative;
 
   &:hover {
     background: var(--color-hovered-option);
@@ -26,14 +26,38 @@ $collapse-transition: transform 100ms ease;
     white-space: nowrap;
   }
 
-  &__children {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-sm);
-  }
-
   &__collapse {
     transition: $collapse-transition;
+  }
+
+  &.layer-drag-indicator--before::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--size-indicator);
+    background: var(--color-indicators);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  &.layer-drag-indicator--after::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: var(--size-indicator);
+    background: var(--color-indicators);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  &.layer-drag-indicator--into {
+    background: var(--color-bg-active);
+    outline: var(--size-indicator) solid var(--color-indicators);
+    outline-offset: -1px;
   }
 }
 
