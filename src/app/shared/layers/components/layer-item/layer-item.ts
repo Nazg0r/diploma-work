@@ -2,6 +2,7 @@ import { Component, computed, inject, input, output } from '@angular/core';
 import { LAYER_ITEM_OFFSET, NODE_ITEM_OFFSET } from '../../../../core/constants/layers.constants';
 import { MD_ICON_SIZE } from '../../../../core/constants/size.constants';
 import { DropEvent, Layer, NodeRef } from '../../../../core/models/layers';
+import { ThumbnailService } from '../../../../core/services/thumbnail.service';
 import { LAYER_STORE } from '../../../../core/stores/layers';
 import { Icon } from '../../../icons/components/icon/icon';
 import { LayerDragDirective } from '../../directives/layer-drag.directive';
@@ -19,17 +20,24 @@ export class LayerItem {
   public readonly depth = input.required<number>();
 
   protected readonly store = inject(LAYER_STORE);
+  private readonly thumbnailsService = inject(ThumbnailService);
 
   public readonly dropNode = output<DropEvent>();
 
   protected readonly isActive = computed(() => this.store.activeLayerId() === this.layer().id);
+
   protected readonly indentStyle = computed(() => ({
     paddingLeft: `${this.depth() * NODE_ITEM_OFFSET + LAYER_ITEM_OFFSET}px`,
   }));
+
   protected readonly nodeRef = computed<NodeRef>(() => ({
     type: 'layer',
     id: this.layer().id,
   }));
+
+  protected readonly thumbnailUrl = computed(() =>
+    this.thumbnailsService.getThumbnail(this.layer().id),
+  );
 
   protected onSelect(): void {
     this.store.setActiveLayer(this.layer().id);

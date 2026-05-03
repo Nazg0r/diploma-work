@@ -11,14 +11,6 @@
     background: var(--color-hovered-option);
   }
 
-  &__thumbnail {
-    width: 16px;
-    height: 16px;
-    background: var(--color-bg-input);
-    border: 1px solid var(--color-border);
-    flex-shrink: 0;
-  }
-
   &__name {
     flex: 1;
     font-size: var(--font-size-md);
@@ -50,6 +42,33 @@
     background: var(--color-text-primary);
     pointer-events: none;
     z-index: 2;
+  }
+
+  &__thumbnail {
+    width: var(--size-thumbnail-width);
+    height: var(--size-thumbnail-height);
+    background: var(--color-checkerboard-first);
+    overflow: hidden;
+    background-image:
+      linear-gradient(45deg, var(--color-checkerboard-second) 25%, transparent 25%),
+      linear-gradient(-45deg, var(--color-checkerboard-second) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, var(--color-checkerboard-second) 75%),
+      linear-gradient(-45deg, transparent 75%, var(--color-checkerboard-second) 75%);
+    background-size: 4px 4px;
+    background-position: 0 0, 0 2px, 2px -2px, -2px 0px;
+  }
+
+  &__thumbnail-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    image-rendering: pixelated;
+    display: block;
+  }
+
+  &__thumbnail-empty {
+    width: 100%;
+    height: 100%;
   }
 }
 

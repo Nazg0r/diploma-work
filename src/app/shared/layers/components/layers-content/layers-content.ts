@@ -1,13 +1,12 @@
 import { AfterViewInit, Component, computed, inject } from '@angular/core';
-import { AddLayerCommand } from '../../../../core/commands';
-import { AddCollectionCommand } from '../../../../core/commands/layers/add-collection.command';
-import { MoveNodeCommand } from '../../../../core/commands/layers/move-node.command';
+import { AddCollectionCommand, AddLayerCommand, MoveNodeCommand } from '../../../../core/commands';
 import {
   createLayerCollection,
   createPixelLayer,
 } from '../../../../core/factories/layer.factories';
 import { DropEvent, DropPosition, NodeRef } from '../../../../core/models/layers';
 import { DragContextService } from '../../../../core/services/drag-context.service';
+import { ThumbnailService } from '../../../../core/services/thumbnail.service';
 import { HistoryStore } from '../../../../core/stores/history/history.store';
 import { LAYER_STORE } from '../../../../core/stores/layers';
 import { LayerNode } from '../layer-node/layer-node';
@@ -23,7 +22,7 @@ type ResolveResult =
   imports: [LayersHeader, LayersFooter, LayerNode],
   templateUrl: './layers-content.html',
   styleUrl: './layers-content.scss',
-  providers: [DragContextService],
+  providers: [DragContextService, ThumbnailService],
 })
 export class LayersContent implements AfterViewInit {
   protected readonly store = inject(LAYER_STORE);
@@ -53,15 +52,6 @@ export class LayersContent implements AfterViewInit {
     this.historyStore.execute(
       new MoveNodeCommand(this.store, event.source, newParentId, targetIndex),
     );
-
-    // console.log(this.store.collections()[event.source.id].parentId);
-
-    // if (event.source.type === 'collection' && event.target.type === "collection") {
-    //   const SCol = this.store.collections()[event.source.id];
-    //   const tCol = this.store.collections()[event.target.id];
-    //   console.log(`Source id: ${event.source.id}`);
-    //   console.log(`Target: ${tCol.children}`);
-    // }
   }
 
   protected onRootDragOver(e: DragEvent): void {

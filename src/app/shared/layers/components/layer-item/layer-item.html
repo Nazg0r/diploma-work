@@ -13,7 +13,13 @@
     [size]="MD_ICON_SIZE"
     (click)="toggleVisibility($event)"
   />
-  <div class="layer-item__thumbnail"></div>
+  <div class="layer-item__thumbnail">
+    @if (thumbnailUrl(); as url) {
+      <img [src]="url" alt="" class="layer-item__thumbnail-img" />
+    } @else {
+      <div class="layer-item__thumbnail-empty"></div>
+    }
+  </div>
   <span class="layer-item__name">{{ layer().name }}</span>
   <app-icon
     class="layer-item__icon"
