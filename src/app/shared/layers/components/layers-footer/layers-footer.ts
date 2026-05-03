@@ -1,12 +1,17 @@
 import { Component, computed, inject } from '@angular/core';
-import { AddLayerCommand, RemoveLayerCommand } from '../../../../core/commands';
+import {
+  AddLayerCommand,
+  MoveNodeDownCommand,
+  MoveNodeUpCommand,
+  RemoveLayerCommand,
+} from '../../../../core/commands';
+import { MD_ICON_SIZE } from '../../../../core/constants/size.constants';
 import { createPixelLayer } from '../../../../core/factories/layer.factories';
-import { isPixelLayer } from '../../../../core/models/layers';
+import { isPixelLayer, NodeRef } from '../../../../core/models/layers';
 import { HistoryStore } from '../../../../core/stores/history/history.store';
 import { LAYER_STORE } from '../../../../core/stores/layers';
 import { CanvasStore } from '../../../../features/pixel-editor/stores/canvas.store';
 import { Icon } from '../../../icons/components/icon/icon';
-import { MD_ICON_SIZE } from '../../../../core/constants/size.constants';
 
 @Component({
   selector: 'app-layers-footer',
@@ -15,6 +20,8 @@ import { MD_ICON_SIZE } from '../../../../core/constants/size.constants';
   styleUrl: './layers-footer.scss',
 })
 export class LayersFooter {
+  protected readonly MD_ICON_SIZE = MD_ICON_SIZE;
+
   private readonly layerStore = inject(LAYER_STORE);
   private readonly canvasStore = inject(CanvasStore);
   private readonly historyStore = inject(HistoryStore);
@@ -56,11 +63,40 @@ export class LayersFooter {
   }
 
   protected moveUp(): void {
-    // TODO:
+    const active = this.layerStore.activeLayer();
+    if (!active) return;
+
+    const nodeRef: NodeRef = {
+      id: active.id,
+      type: 'layer',
+    };
+    const index = this.getNodeIndex(
+      active.id,
+      active.parentId,
+      (index, children) => index >= children.length - 1,
+    );
+    if (index === null) return;
+
+    this.historyStore.execute(
+      new MoveNodeUpCommand(nodeRef, active.parentId, index, this.layerStore),
+    );
   }
 
   protected moveDown(): void {
-    // TODO
+    const active = this.layerStore.activeLayer();
+    if (!active) return;
+
+    const nodeRef: NodeRef = {
+      id: active.id,
+      type: 'layer',
+    };
+
+    const index = this.getNodeIndex(active.id, active.parentId, (index, _) => index === 0);
+    if (index === null) return;
+
+    this.historyStore.execute(
+      new MoveNodeDownCommand(nodeRef, active.parentId, index, this.layerStore),
+    );
   }
 
   protected deleteLayer(): void {
@@ -70,5 +106,21 @@ export class LayersFooter {
     this.historyStore.execute(new RemoveLayerCommand(id, this.layerStore));
   }
 
-  protected readonly MD_ICON_SIZE = MD_ICON_SIZE;
+  private getNodeIndex(
+    nodeId: string,
+    parentId: string | null,
+    extraChek: (index: number, children: NodeRef[]) => boolean,
+  ): number | null {
+    const children = this.getParentChildren(parentId);
+    const index = children.findIndex((layer) => layer.id === nodeId);
+    if (extraChek(index, children)) return null;
+    return index;
+  }
+
+  private getParentChildren(parentId: string | null): NodeRef[] {
+    if (parentId === null) {
+      return this.layerStore.rootChildren();
+    }
+    return this.layerStore.collections()[parentId].children;
+  }
 }
