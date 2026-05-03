@@ -7,12 +7,12 @@ import { HistoryStore } from '../stores/history/history.store';
 export class HistoryManagerService {
   private readonly store = inject(HistoryStore);
 
-  private readonly _lastEvent = signal<CommandInfo | null>(null);
-  public readonly lastEvent = this._lastEvent.asReadonly();
+  private readonly _lastCommand = signal<CommandInfo | null>(null);
+  public readonly lastCommand = this._lastCommand.asReadonly();
 
   public execute(command: Command): void {
     this.store.execute(command);
-    this._lastEvent.set({
+    this._lastCommand.set({
       command,
       operation: 'execute',
       timestamp: Date.now(),
@@ -23,7 +23,7 @@ export class HistoryManagerService {
     if (!this.store.canUndo()) return;
     const lastCommand = this.store.past()[this.store.past().length - 1];
     this.store.undo();
-    this._lastEvent.set({
+    this._lastCommand.set({
       command: lastCommand,
       operation: 'undo',
       timestamp: Date.now(),
@@ -34,7 +34,7 @@ export class HistoryManagerService {
     if (!this.store.canRedo()) return;
     const nextCommand = this.store.future()[this.store.future().length - 1];
     this.store.redo();
-    this._lastEvent.set({
+    this._lastCommand.set({
       command: nextCommand,
       operation: 'redo',
       timestamp: Date.now(),
@@ -43,6 +43,6 @@ export class HistoryManagerService {
 
   public clear(): void {
     this.store.clear();
-    this._lastEvent.set(null);
+    this._lastCommand.set(null);
   }
 }
