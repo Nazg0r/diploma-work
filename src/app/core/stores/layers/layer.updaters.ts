@@ -193,22 +193,24 @@ export function moveNode<T extends Layer>(
       return order;
     });
 
+    const storeAfterAdd = { ...storeAfterRemove, ...addedToNewParent } as LayerSlice<T>;
+
     const nodeUpdate =
       nodeRef.type === 'layer'
         ? {
             layers: {
-              ...storeAfterRemove.layers,
+              ...storeAfterAdd.layers,
               [nodeRef.id]: {
-                ...storeAfterRemove.layers[nodeRef.id],
+                ...storeAfterAdd.layers[nodeRef.id],
                 parentId: newParentId,
               },
             },
           }
         : {
             collections: {
-              ...storeAfterRemove.collections,
+              ...storeAfterAdd.collections,
               [nodeRef.id]: {
-                ...storeAfterRemove.collections[nodeRef.id],
+                ...storeAfterAdd.collections[nodeRef.id],
                 parentId: newParentId,
               },
             },

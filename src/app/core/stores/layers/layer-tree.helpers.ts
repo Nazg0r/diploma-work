@@ -38,7 +38,7 @@ export function isDescendantOf<T extends Layer>(
   if (!target) return false;
   if (target.parentId === ancestorCollectionId) return true;
   if (target.parentId === null) return false;
-  return isDescendantOf(target.id, ancestorCollectionId, store);
+  return isDescendantOf(target.parentId, ancestorCollectionId, store);
 }
 
 export function removeFromParent<T extends Layer>(
