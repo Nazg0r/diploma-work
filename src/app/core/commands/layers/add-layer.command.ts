@@ -24,4 +24,8 @@ export class AddLayerCommand implements Command {
   undo(): void {
     this.store.removeLayer(this.layer.id);
   }
+
+  public affectedLayerIds(): string[] {
+    return [this.layer.id];
+  }
 }

@@ -4,6 +4,7 @@ export interface Command {
   description?: string;
   execute: () => void;
   undo: () => void;
+  affectedLayerIds?: () => string[];
 }
 
 export interface MergeableCommand extends Command {

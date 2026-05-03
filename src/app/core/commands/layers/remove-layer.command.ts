@@ -28,4 +28,8 @@ export class RemoveLayerCommand implements Command {
   undo(): void {
     if (this.snapshot) this.store.addLayer(this.snapshot);
   }
+
+  public affectedLayerIds(): string[] {
+    return [this.layerId];
+  }
 }
