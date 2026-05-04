@@ -75,3 +75,15 @@
 .layer-item__icon {
   cursor: pointer;
 }
+
+span.name--editing {
+  background: var(--color-bg-input);
+  padding: 0 var(--space-1);
+  margin: 0 calc(0px - var(--space-1));
+  cursor: text;
+  user-select: text;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: nowrap;
+  pointer-events: auto;
+}

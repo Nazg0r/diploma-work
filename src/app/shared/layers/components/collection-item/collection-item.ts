@@ -10,10 +10,20 @@ import { LAYER_STORE } from '../../../../core/stores/layers';
 import { Icon } from '../../../icons/components/icon/icon';
 import { LayerDragDirective } from '../../directives/layer-drag.directive';
 import { LayerDropIndicator } from '../../directives/layer-drop-indicator.directive';
+import { HistoryManagerService } from '../../../../core/services/history-manager.service';
+import { RenameLayerCommand } from '../../../../core/commands/layers/rename-layer.command';
+import { RenameCollectionCommand } from '../../../../core/commands/layers/rename-collection.command';
+import { RenameDirective } from '../../directives/rename.directive';
 
 @Component({
   selector: 'app-collection-item',
-  imports: [Icon, forwardRef(() => LayerNode), LayerDragDirective, LayerDropIndicator],
+  imports: [
+    Icon,
+    forwardRef(() => LayerNode),
+    LayerDragDirective,
+    LayerDropIndicator,
+    RenameDirective,
+  ],
   templateUrl: './collection-item.html',
   styleUrl: './collection-item.scss',
 })
@@ -26,6 +36,7 @@ export class CollectionItem {
   public readonly dropNode = output<DropEvent>();
 
   private readonly store = inject(LAYER_STORE);
+  private readonly historyService = inject(HistoryManagerService);
 
   protected readonly children = computed(() => [...this.collection().children].reverse());
   protected readonly indentStyle = computed(() => ({
@@ -42,5 +53,16 @@ export class CollectionItem {
 
   protected onDrop(event: DropEvent): void {
     this.dropNode.emit(event);
+  }
+
+  protected onRename(newName: string): void {
+    this.historyService.execute(
+      new RenameCollectionCommand(
+        this.store,
+        this.collection().id,
+        newName,
+        this.collection().name,
+      ),
+    );
   }
 }

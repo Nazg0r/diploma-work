@@ -7,10 +7,13 @@ import { LAYER_STORE } from '../../../../core/stores/layers';
 import { Icon } from '../../../icons/components/icon/icon';
 import { LayerDragDirective } from '../../directives/layer-drag.directive';
 import { LayerDropIndicator } from '../../directives/layer-drop-indicator.directive';
+import { HistoryManagerService } from '../../../../core/services/history-manager.service';
+import { RenameLayerCommand } from '../../../../core/commands/layers/rename-layer.command';
+import { RenameDirective } from '../../directives/rename.directive';
 
 @Component({
   selector: 'app-layer-item',
-  imports: [Icon, LayerDragDirective, LayerDropIndicator],
+  imports: [Icon, LayerDragDirective, LayerDropIndicator, RenameDirective],
   templateUrl: './layer-item.html',
   styleUrl: './layer-item.scss',
 })
@@ -20,6 +23,7 @@ export class LayerItem {
   public readonly depth = input.required<number>();
 
   protected readonly store = inject(LAYER_STORE);
+  private readonly historyService = inject(HistoryManagerService);
   private readonly thumbnailsService = inject(ThumbnailService);
 
   public readonly dropNode = output<DropEvent>();
@@ -60,5 +64,11 @@ export class LayerItem {
 
   protected onDrop(event: DropEvent): void {
     this.dropNode.emit(event);
+  }
+
+  protected onRename(newName: string): void {
+    this.historyService.execute(
+      new RenameLayerCommand(this.store, this.layer().id, newName, this.layer().name),
+    );
   }
 }

@@ -20,7 +20,9 @@
       <div class="layer-item__thumbnail-empty"></div>
     }
   </div>
-  <span class="layer-item__name">{{ layer().name }}</span>
+  <span class="layer-item__name" [appRename]="layer().name" (commit)="onRename($event)">{{
+    layer().name
+  }}</span>
   <app-icon
     class="layer-item__icon"
     [name]="layer().isLocked ? 'lock-closed' : 'lock-open'"

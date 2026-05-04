@@ -5,15 +5,18 @@
   [canAcceptInto]="true"
   (dropNode)="onDrop($event)"
 >
-  <div class="collection-item__header" [style]="indentStyle()" (click)="toggleCollapse()">
+  <div class="collection-item__header" [style]="indentStyle()">
     <app-icon
       [name]="'collapse'"
       [size]="SM_ICON_SIZE"
       class="collection-item__collapse"
       [class.collapsed]="collection().isCollapsed"
+      (click)="toggleCollapse()"
     />
     <app-icon name="folder" [size]="MD_ICON_SIZE" class="collection-item__icon" />
-    <span class="collection-item__name">{{ collection().name }}</span>
+    <span class="collection-item__name" [appRename]="collection().name" (commit)="onRename($event)"
+      >{{ collection().name }}
+    </span>
   </div>
 </div>
 

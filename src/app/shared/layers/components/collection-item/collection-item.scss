@@ -13,7 +13,6 @@ $collapse-transition: transform 100ms ease;
     gap: var(--gap-md);
     height: var(--size-layers-node);
     padding: 0 var(--space-2);
-    cursor: pointer;
     user-select: none;
   }
 
@@ -28,6 +27,7 @@ $collapse-transition: transform 100ms ease;
 
   &__collapse {
     transition: $collapse-transition;
+    cursor: pointer;
   }
 
   &.layer-drag-indicator--before::before {
@@ -63,4 +63,16 @@ $collapse-transition: transform 100ms ease;
 
 .collapsed {
   transform: rotate(180deg);
+}
+
+span.name--editing {
+  background: var(--color-bg-input);
+  padding: 0 var(--space-1);
+  margin: 0 calc(0px - var(--space-1));
+  cursor: text;
+  user-select: text;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: nowrap;
+  pointer-events: auto;
 }
