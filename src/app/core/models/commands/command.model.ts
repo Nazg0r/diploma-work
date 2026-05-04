@@ -7,11 +7,13 @@ export interface Command {
   affectedLayerIds?: () => string[];
 }
 
-export interface MergeableCommand extends Command {
-  canMerge: (command: Command) => boolean;
-  merge: (command: MergeableCommand) => MergeableCommand;
+export interface MergeableCommand<T extends Command = MergeableCommand<any>> extends Command {
+  canMerge(command: Command): command is T;
+  merge(command: T): T;
 }
 
 export function isMergeable(cmd: Command): cmd is MergeableCommand {
-  return typeof (cmd as MergeableCommand).canMerge === 'function' && 'canMergeWith' in cmd ;
+  return (
+    'canMergeWith' in cmd && typeof (cmd as { canMergeWith: unknown }).canMergeWith === 'function'
+  );
 }
