@@ -6,8 +6,8 @@ import {
 } from '../../../../core/factories/layer.factories';
 import { DropEvent, DropPosition, NodeRef } from '../../../../core/models/layers';
 import { DragContextService } from '../../../../core/services/drag-context.service';
+import { HistoryManagerService } from '../../../../core/services/history-manager.service';
 import { ThumbnailService } from '../../../../core/services/thumbnail.service';
-import { HistoryStore } from '../../../../core/stores/history/history.store';
 import { LAYER_STORE } from '../../../../core/stores/layers';
 import { LayerNode } from '../layer-node/layer-node';
 import { LayersFooter } from '../layers-footer/layers-footer';
@@ -26,7 +26,7 @@ type ResolveResult =
 })
 export class LayersContent implements AfterViewInit {
   protected readonly store = inject(LAYER_STORE);
-  private readonly historyStore = inject(HistoryStore);
+  private readonly historyService = inject(HistoryManagerService);
   private readonly dragCtx = inject(DragContextService);
 
   protected readonly rootChildren = computed(() => [...this.store.rootChildren()].reverse());
@@ -40,16 +40,16 @@ export class LayersContent implements AfterViewInit {
     const layer = createPixelLayer(`Layer 1`, { height: 10, width: 10 });
     layer.parentId = collection2.id;
 
-    this.historyStore.execute(new AddCollectionCommand(collection, this.store));
-    this.historyStore.execute(new AddCollectionCommand(collection1, this.store));
-    this.historyStore.execute(new AddCollectionCommand(collection2, this.store));
-    this.historyStore.execute(new AddLayerCommand(layer, this.store));
+    this.historyService.execute(new AddCollectionCommand(collection, this.store));
+    this.historyService.execute(new AddCollectionCommand(collection1, this.store));
+    this.historyService.execute(new AddCollectionCommand(collection2, this.store));
+    this.historyService.execute(new AddLayerCommand(layer, this.store));
   }
 
   protected onDrop(event: DropEvent): void {
     const { newParentId, targetIndex } = this.resolveDropTarget(event);
     if (newParentId === undefined) return;
-    this.historyStore.execute(
+    this.historyService.execute(
       new MoveNodeCommand(this.store, event.source, newParentId, targetIndex),
     );
   }
@@ -65,7 +65,7 @@ export class LayersContent implements AfterViewInit {
     e.preventDefault();
     const source = this.dragCtx.draggingNode();
     if (!source) return;
-    this.historyStore.execute(new MoveNodeCommand(this.store, source, null, 0));
+    this.historyService.execute(new MoveNodeCommand(this.store, source, null, 0));
     this.dragCtx.endDrag();
   }
 

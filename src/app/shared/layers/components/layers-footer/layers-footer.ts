@@ -8,10 +8,10 @@ import {
 import { MD_ICON_SIZE } from '../../../../core/constants/size.constants';
 import { createPixelLayer } from '../../../../core/factories/layer.factories';
 import { isPixelLayer, NodeRef } from '../../../../core/models/layers';
-import { HistoryStore } from '../../../../core/stores/history/history.store';
 import { LAYER_STORE } from '../../../../core/stores/layers';
 import { CanvasStore } from '../../../../features/pixel-editor/stores/canvas.store';
 import { Icon } from '../../../icons/components/icon/icon';
+import { HistoryManagerService } from '../../../../core/services/history-manager.service';
 
 @Component({
   selector: 'app-layers-footer',
@@ -24,9 +24,7 @@ export class LayersFooter {
 
   private readonly layerStore = inject(LAYER_STORE);
   private readonly canvasStore = inject(CanvasStore);
-  private readonly historyStore = inject(HistoryStore);
-  // TODO: replace with HistoryManagerService
-  // private readonly history = inject(HistoryManagerService);
+  private readonly historyService = inject(HistoryManagerService);
 
   protected readonly hasActiveLayer = computed(() => this.layerStore.activeLayerId() !== null);
 
@@ -35,7 +33,7 @@ export class LayersFooter {
     const layerName = this.layerStore.getLayerItemName('pixel');
     const layer = createPixelLayer(layerName, this.canvasStore.canvasSize());
 
-    this.historyStore.execute(new AddLayerCommand(layer, this.layerStore));
+    this.historyService.execute(new AddLayerCommand(layer, this.layerStore));
   }
 
   protected duplicateLayer(): void {
@@ -55,7 +53,7 @@ export class LayersFooter {
         name: `${active.name} copy`,
         data,
       };
-      this.historyStore.execute(new AddLayerCommand(duplicate, this.layerStore));
+      this.historyService.execute(new AddLayerCommand(duplicate, this.layerStore));
     }
   }
   protected mergeLayer(): void {
@@ -77,7 +75,7 @@ export class LayersFooter {
     );
     if (index === null) return;
 
-    this.historyStore.execute(
+    this.historyService.execute(
       new MoveNodeUpCommand(nodeRef, active.parentId, index, this.layerStore),
     );
   }
@@ -94,7 +92,7 @@ export class LayersFooter {
     const index = this.getNodeIndex(active.id, active.parentId, (index, _) => index === 0);
     if (index === null) return;
 
-    this.historyStore.execute(
+    this.historyService.execute(
       new MoveNodeDownCommand(nodeRef, active.parentId, index, this.layerStore),
     );
   }
@@ -103,7 +101,7 @@ export class LayersFooter {
     const id = this.layerStore.activeLayerId();
     if (!id) return;
 
-    this.historyStore.execute(new RemoveLayerCommand(id, this.layerStore));
+    this.historyService.execute(new RemoveLayerCommand(id, this.layerStore));
   }
 
   private getNodeIndex(
