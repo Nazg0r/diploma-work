@@ -1,14 +1,16 @@
-import { Component, computed, inject, input, output } from '@angular/core';
+import { Component, computed, inject, Injector, input, output } from '@angular/core';
+import { RenameLayerCommand } from '../../../../core/commands/layers/rename-layer.command';
 import { LAYER_ITEM_OFFSET, NODE_ITEM_OFFSET } from '../../../../core/constants/layers.constants';
 import { MD_ICON_SIZE } from '../../../../core/constants/size.constants';
 import { DropEvent, Layer, NodeRef } from '../../../../core/models/layers';
+import { HistoryManagerService } from '../../../../core/services/history-manager.service';
+import { ModalService } from '../../../../core/services/modal.service';
 import { ThumbnailService } from '../../../../core/services/thumbnail.service';
 import { LAYER_STORE } from '../../../../core/stores/layers';
 import { Icon } from '../../../icons/components/icon/icon';
+import { LayerSettingsModal } from '../../../modals/components/layer-settings-modal/layer-settings-modal';
 import { LayerDragDirective } from '../../directives/layer-drag.directive';
 import { LayerDropIndicator } from '../../directives/layer-drop-indicator.directive';
-import { HistoryManagerService } from '../../../../core/services/history-manager.service';
-import { RenameLayerCommand } from '../../../../core/commands/layers/rename-layer.command';
 import { RenameDirective } from '../../directives/rename.directive';
 
 @Component({
@@ -22,9 +24,11 @@ export class LayerItem {
   public readonly layer = input.required<Layer>();
   public readonly depth = input.required<number>();
 
+  private readonly injector = inject(Injector);
   protected readonly store = inject(LAYER_STORE);
   private readonly historyService = inject(HistoryManagerService);
   private readonly thumbnailsService = inject(ThumbnailService);
+  private readonly modalService = inject(ModalService);
 
   public readonly dropNode = output<DropEvent>();
 
@@ -59,7 +63,7 @@ export class LayerItem {
 
   protected openSettings(event: Event): void {
     event.stopPropagation();
-    // TODO: open model window
+    this.modalService.open(LayerSettingsModal, { layerId: this.layer().id }, this.injector);
   }
 
   protected onDrop(event: DropEvent): void {
