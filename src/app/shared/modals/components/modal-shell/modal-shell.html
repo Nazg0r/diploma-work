@@ -1,0 +1,21 @@
+<div class="modal-backdrop" (click)="onBackdropClick()">
+  <div class="modal" (click)="stopPropagation($event)">
+    <header class="modal__header">
+      <h2 class="modal__title">{{ title() }}</h2>
+      <app-icon
+        class="modal__close-btn"
+        name="cross"
+        [size]="MD_ICON_SIZE"
+        (click)="onCloseClick()"
+      />
+    </header>
+
+    <div class="modal__body">
+      <ng-content select="[modal-body]" />
+    </div>
+
+    <footer class="modal__footer">
+      <ng-content select="[modal-footer]" />
+    </footer>
+  </div>
+</div>
