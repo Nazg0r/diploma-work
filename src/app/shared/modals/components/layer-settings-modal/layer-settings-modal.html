@@ -1,0 +1,24 @@
+<app-modal-shell [title]="MODAL_TITLES.layerSettings" (close)="onClose()">
+  <ng-container modal-body>
+    <div class="modal-body">
+      <app-field label="Name">
+        <app-text-input
+          class="control"
+          [value]="layerName()"
+          (valueChange)="onNameChange($event)"
+        ></app-text-input>
+      </app-field>
+      <app-field label="Opacity">
+        <app-slider class="control" [value]="opacity()" (valueChange)="onOpacityChange($event)" />
+      </app-field>
+      <app-field label="Blend Mode">
+        <app-select
+          class="control"
+          [value]="blendMode()"
+          [options]="blendOptions"
+          (valueChange)="onBlendModeChange($event)"
+        />
+      </app-field>
+    </div>
+  </ng-container>
+</app-modal-shell>
