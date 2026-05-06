@@ -1,0 +1,11 @@
+<input
+  type="number"
+  class="number-input__field"
+  [value]="value()"
+  [min]="min()"
+  [max]="max()"
+  (input)="onInput($event)"
+/>
+@if (suffix()) {
+  <span class="number-input__suffix">{{ suffix() }}</span>
+}

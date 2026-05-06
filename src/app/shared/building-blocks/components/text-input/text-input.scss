@@ -1,0 +1,20 @@
+$padding: 2px var(--space-2);
+$border: var(--size-border) solid var(--color-border);
+
+:host {
+  display: block;
+}
+
+.text-input {
+  width: 100%;
+  padding: $padding;
+  background: var(--color-bg-input);
+  border: $border;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-md);
+  font-family: var(--font-content), sans-serif;
+
+  &:focus {
+    outline: none;
+  }
+}
