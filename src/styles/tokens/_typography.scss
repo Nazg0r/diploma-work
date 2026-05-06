@@ -5,7 +5,11 @@
 
   --font-size-sm: 12px;
   --font-size-md: 14px;
+  --font-size-btn: 16px;
   --font-size-lg: 20px;
 
   --font-weight-bold: 600;
+
+  --text-shadow: -2px 2px 0 var(--color-shadow-accent);
+  --icon-shadow: drop-shadow(-2px 2px 0 var(--color-shadow-accent));
 }
