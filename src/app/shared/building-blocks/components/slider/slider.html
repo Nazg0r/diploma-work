@@ -1,0 +1,10 @@
+<div
+  class="slider"
+  (pointerdown)="onPointerDown($event)"
+  (pointerup)="onPointerUp($event)"
+  (pointermove)="onPointerMove($event)"
+  #track
+>
+  <div class="slider__fill" [style.width.%]="fillPercent()"></div>
+</div>
+<div class="slider__value">{{ displayValue() + '%' }}</div>

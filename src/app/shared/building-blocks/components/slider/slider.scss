@@ -1,0 +1,42 @@
+$border: var(--size-border) solid var(--color-border);
+
+:host {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: var(--size-slider-height);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-md);
+  font-family: var(--font-content), sans-serif;
+}
+
+.slider {
+  width: 100%;
+  background: var(--color-bg-input);
+  border: $border;
+  user-select: none;
+  cursor: ew-resize;
+  overflow: hidden;
+
+  &__fill {
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: var(--color-slider-fill);
+    pointer-events: none;
+  }
+
+  &__value {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--size-slider-value-width);
+    background: var(--color-idle);
+    flex-shrink: 0;
+    border: $border;
+    border-left: none;
+    font-weight: var(--font-weight-bold);
+    pointer-events: none;
+  }
+}
