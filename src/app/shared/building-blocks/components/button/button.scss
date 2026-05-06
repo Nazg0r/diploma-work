@@ -1,0 +1,46 @@
+$padding: 6px var(--space-3);
+$border: var(--size-border) solid var(--color-border);
+$animation: background 120ms ease;
+
+:host {
+  display: block;
+}
+
+.btn {
+  padding: $padding;
+  border: $border;
+  cursor: pointer;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-btn);
+  font-family: var(--font-content), sans-serif;
+  transition: $animation;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &--primary {
+    background: var(--color-accent);
+
+    &:hover:not(:disabled) {
+      background: var(--color-hovered);
+    }
+
+    &:active:not(:disabled) {
+      background: var(--color-pressed);
+    }
+  }
+
+  &--secondary {
+    background: var(--color-idle);
+
+    &:hover:not(:disabled) {
+      background: var(--color-hovered);
+    }
+
+    &:active:not(:disabled) {
+      background: var(--color-pressed);
+    }
+  }
+}
