@@ -1,14 +1,17 @@
-export type LayerKind = 'pixel' | 'tile' | 'object'
+const MODES = [
+  'normal',
+  'multiply',
+  'screen',
+  'overlay',
+  'darken',
+  'lighten',
+  'color-dodge',
+  'color-burn',
+] as const;
 
-export type BlendMode =
-  | 'normal'
-  | 'multiply'
-  | 'screen'
-  | 'overlay'
-  | 'darken'
-  | 'lighten'
-  | 'color-dodge'
-  | 'color-burn';
+export type LayerKind = 'pixel' | 'tile' | 'object';
+
+export type BlendMode = typeof MODES[number];
 
 export interface BaseLayer {
   readonly id: string;
@@ -19,4 +22,8 @@ export interface BaseLayer {
   isLocked: boolean;
   opacity: number;
   parentId: string | null;
+}
+
+export function isBlendMode(mode: string): mode is BlendMode {
+  return MODES.includes(mode as BlendMode);
 }
