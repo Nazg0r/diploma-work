@@ -1,0 +1,29 @@
+$border: var(--size-border) solid var(--color-border);
+
+:host {
+  display: inline-block;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-sm);
+  background: var(--color-bg-bar);
+  border: $border;
+  padding: var(--space-1) 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-md);
+  font-family: var(--font-content), sans-serif;
+  overflow: scroll;
+}
+
+.options-item {
+  padding: 0 var(--space-2);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+
+  &:hover {
+    background: var(--color-accent);
+  }
+}
