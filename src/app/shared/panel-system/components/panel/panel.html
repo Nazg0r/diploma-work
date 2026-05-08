@@ -50,6 +50,12 @@
 
 @if (isExp) {
   <div class="panel-content">
-    <ng-content />
+    <ng-content select="[panel-content]"/>
+  </div>
+}
+
+@if (isExp) {
+  <div class="panel-footer">
+    <ng-content select="[panel-footer]"/>
   </div>
 }

@@ -10,7 +10,6 @@ import { HistoryManagerService } from '../../../../core/services/history-manager
 import { ThumbnailService } from '../../../../core/services/thumbnail.service';
 import { LAYER_STORE } from '../../../../core/stores/layers';
 import { LayerNode } from '../layer-node/layer-node';
-import { LayersFooter } from '../layers-footer/layers-footer';
 import { LayersHeader } from '../layers-header/layers-header';
 
 type ResolveResult =
@@ -19,7 +18,7 @@ type ResolveResult =
 
 @Component({
   selector: 'app-layers-content',
-  imports: [LayersHeader, LayersFooter, LayerNode],
+  imports: [LayersHeader, LayerNode],
   templateUrl: './layers-content.html',
   styleUrl: './layers-content.scss',
   providers: [DragContextService, ThumbnailService],

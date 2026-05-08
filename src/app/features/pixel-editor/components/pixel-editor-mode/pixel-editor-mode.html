@@ -1,7 +1,12 @@
 <app-pixel-editor-canvas />
 <app-header></app-header>
 <app-panel panelId="layers">
-    <app-pixel-editor-layers />
+  <ng-container panel-content>
+    <app-pixel-editor-layers-content />
+  </ng-container>
+  <ng-container panel-footer>
+    <app-pixel-editor-layers-footer />
+  </ng-container>
 </app-panel>
 <app-panel [panelId]="'preview'"></app-panel>
 <app-panel [panelId]="'tileset'"></app-panel>
