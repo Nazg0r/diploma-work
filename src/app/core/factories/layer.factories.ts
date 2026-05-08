@@ -7,43 +7,57 @@ const DEFAULT_LAYERS_PROPS = {
   isLocked: false,
   opacity: 1,
   blendMode: 'normal',
-  parentId: null,
 };
 
-export function createPixelLayer(name: string, size: Size): PixelLayer {
+export function createPixelLayer(
+  name: string,
+  size: Size,
+  parentId: string | null = null,
+): PixelLayer {
   return {
     id: generateId('layer'),
     kind: 'pixel',
     name,
     size,
+    parentId,
     data: new ImageData(size.width, size.height),
     ...DEFAULT_LAYERS_PROPS,
   } as PixelLayer;
 }
 
-export function createTileLayer(name: string, size: Size, tileSize: number): TileLayer {
+export function createTileLayer(
+  name: string,
+  size: Size,
+  tileSize: number,
+  parentId: string | null = null,
+): TileLayer {
   return {
     id: generateId('layer'),
     kind: 'tile',
     name,
     size,
     tileSize,
+    parentId,
     tiles: new Map(),
     ...DEFAULT_LAYERS_PROPS,
   } as TileLayer;
 }
 
-export function createObjectLayer(name: string): ObjectLayer {
+export function createObjectLayer(name: string, parentId: string | null = null): ObjectLayer {
   return {
     id: generateId('layer'),
     kind: 'object',
     name,
+    parentId,
     objects: [],
     ...DEFAULT_LAYERS_PROPS,
   } as ObjectLayer;
 }
 
-export function createLayerCollection(name: string, parentId: string | null = null): LayerCollection {
+export function createLayerCollection(
+  name: string,
+  parentId: string | null = null,
+): LayerCollection {
   return {
     id: generateId('collection'),
     name,
