@@ -1,4 +1,5 @@
 import { AfterViewInit, effect, inject, Injectable } from '@angular/core';
+import { isPixelLayer } from '../../../core/models/layers';
 import { SpriteLayerStore } from '../../../core/stores/layers/sprite-layer.store';
 import { CanvasEngine } from './canvas-engine';
 import { Checkerboard } from './checkerboard';
@@ -34,6 +35,7 @@ export class PixelEditorEngine extends CanvasEngine implements AfterViewInit {
 
     this.checkerboard.render(ctx, sx, sy, sw, sh, viewport.zoom);
     const orderedLayers = this.layerStore.layersInRenderOrder();
+    if (!orderedLayers.every((layer) => isPixelLayer(layer))) return;
     this.layerRenderer.render(ctx, orderedLayers, viewport);
     this.grid.render(ctx, viewport, canvasSize);
 
