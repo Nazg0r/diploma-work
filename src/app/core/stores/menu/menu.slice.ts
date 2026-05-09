@@ -15,53 +15,53 @@ export const initialMenuSlice: MenuSlice = {
       label: 'File',
       children: [
         {
-          id: 'create-new',
+          id: 'file/create-new',
           label: 'Create New',
           children: [
             {
-              id: 'sprite',
+              id: 'file/create-new/sprite',
               label: 'Sprite',
               shortcut: 'Ctrl+N+S',
             },
             {
-              id: 'map',
+              id: 'file/create-new/map',
               label: 'Map',
               shortcut: 'Ctrl+N+M',
             },
           ],
         },
         {
-          id: 'open',
+          id: 'file/open',
           label: 'Open',
           dividerAfter: true,
           children: [
             {
-              id: 'sprite',
+              id: 'file/open/sprite',
               label: 'Sprite',
             },
             {
-              id: 'map',
+              id: 'file/open/map',
               label: 'Map',
             },
           ],
         },
         {
-          id: 'save',
+          id: 'file/save',
           label: 'Save',
           shortcut: 'Ctrl+S',
         },
         {
-          id: 'save-as',
+          id: 'file/save-as',
           label: 'Save As...',
           shortcut: 'Shift+Ctrl+S',
           dividerAfter: true,
         },
         {
-          id: 'import',
+          id: 'file/import',
           label: 'Import',
         },
         {
-          id: 'export',
+          id: 'file/export',
           label: 'Export',
         },
       ],
@@ -71,27 +71,27 @@ export const initialMenuSlice: MenuSlice = {
       label: 'Edit',
       children: [
         {
-          id: 'undo',
+          id: 'edit/undo',
           label: 'Undo',
           shortcut: 'Ctrl+Z',
         },
         {
-          id: 'redo',
+          id: 'edit/redo',
           label: 'Redo',
           dividerAfter: true,
           shortcut: 'Ctrl+Y',
         },
         {
-          id: 'history',
+          id: 'edit/history',
           label: 'History',
           shortcut: 'Ctrl+H',
         },
         {
-          id: 'hot-keys',
+          id: 'edit/hot-keys',
           label: 'Hot Keys',
         },
         {
-          id: 'preferences',
+          id: 'edit/preferences',
           label: 'Preferences',
         },
       ],
@@ -101,20 +101,20 @@ export const initialMenuSlice: MenuSlice = {
       label: 'View',
       children: [
         {
-          id: 'mode',
+          id: 'view/mode',
           label: 'Mode',
         },
         {
-          id: 'grid',
+          id: 'view/grid',
           label: 'Grid',
           shortcut: 'Ctrl+G',
         },
         {
-          id: 'minimalize',
+          id: 'view/minimize',
           label: 'Minimize',
         },
         {
-          id: 'show',
+          id: 'view/show',
           label: 'Show',
         },
       ],
@@ -124,36 +124,36 @@ export const initialMenuSlice: MenuSlice = {
       label: 'Sprite',
       children: [
         {
-          id: 'create-new',
+          id: 'sprite/create-new',
           label: 'Create New',
           shortcut: 'Shift+Ctrl+S',
         },
         {
-          id: 'load',
+          id: 'sprite/load',
           label: 'Load',
         },
         {
-          id: 'save',
+          id: 'sprite/save',
           label: 'Save',
         },
         {
-          id: 'duplicate',
+          id: 'sprite/duplicate',
           label: 'Duplicate',
         },
         {
-          id: 'resize',
+          id: 'sprite/resize',
           label: 'Resize',
         },
         {
-          id: 'crop',
+          id: 'sprite/crop',
           label: 'Crop',
         },
         {
-          id: 'rotate',
+          id: 'sprite/rotate',
           label: 'Rotate',
         },
         {
-          id: 'delete',
+          id: 'sprite/delete',
           label: 'Delete',
         },
       ],
@@ -163,24 +163,24 @@ export const initialMenuSlice: MenuSlice = {
       label: 'Map',
       children: [
         {
-          id: 'create-new',
+          id: 'map/create-new',
           label: 'Create New',
           shortcut: 'Shift+Ctrl+M',
         },
         {
-          id: 'load',
+          id: 'map/load',
           label: 'Load',
         },
         {
-          id: 'save',
+          id: 'map/save',
           label: 'Save',
         },
         {
-          id: 'resize',
+          id: 'map/resize',
           label: 'Resize',
         },
         {
-          id: 'tile-size',
+          id: 'map/tile-size',
           label: 'Tile Size',
         },
       ],
@@ -191,23 +191,23 @@ export const initialMenuSlice: MenuSlice = {
       isDisabled: true,
       children: [
         {
-          id: 'documentation',
+          id: 'help/documentation',
           label: 'Documentation',
         },
         {
-          id: 'tutorial',
+          id: 'help/tutorial',
           label: 'Tutorial',
         },
         {
-          id: 'support',
+          id: 'help/support',
           label: 'Support',
         },
         {
-          id: 'report-a-bug',
+          id: 'help/report-a-bug',
           label: 'Report a Bug',
         },
         {
-          id: 'about',
+          id: 'help/about',
           label: 'About',
         },
       ],
