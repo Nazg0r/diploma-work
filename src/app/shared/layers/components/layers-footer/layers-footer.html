@@ -1,11 +1,29 @@
-<app-icon name="plus" class="layers-footer__icon" [size]="MD_ICON_SIZE" (click)="addLayer()" />
+<div
+  class="create-item-container"
+  #addLayerItem
+  [appClickOutside]="isAddLayerItemOptionsVisible()"
+  [handler]="addItemOptionsAppearanceHandler"
+>
+  <app-icon
+    name="plus"
+    class="layers-footer__icon"
+    [size]="MD_ICON_SIZE"
+    (click)="toggleLayerItemOptionsVisibility()"
+  />
+  <app-options-list
+    [bindings]="addLayerItemBindings"
+    [visible]="isAddLayerItemOptionsVisible()"
+    (selected)="onLayerItemOptionSelected()"
+    class="create-item__options"
+  ></app-options-list>
+</div>
 
 <app-icon
   name="copy"
   class="layers-footer__icon"
   [class.disabled]="!hasActiveLayer()"
   [size]="MD_ICON_SIZE"
-  (click)="duplicateLayer()"
+  (click)="actions.duplicate()"
 />
 
 <app-icon
@@ -13,7 +31,7 @@
   class="layers-footer__icon"
   [class.disabled]="!hasActiveLayer()"
   [size]="MD_ICON_SIZE"
-  (click)="mergeLayer()"
+  (click)="actions.merge()"
 />
 
 <app-icon
@@ -21,7 +39,7 @@
   class="layers-footer__icon arrow-up"
   [class.disabled]="!hasActiveLayer()"
   [size]="MD_ICON_SIZE"
-  (click)="moveUp()"
+  (click)="actions.move('up')"
 />
 
 <app-icon
@@ -29,7 +47,7 @@
   class="layers-footer__icon arrow-down"
   [class.disabled]="!hasActiveLayer()"
   [size]="MD_ICON_SIZE"
-  (click)="moveDown()"
+  (click)="actions.move('down')"
 />
 
 <app-icon
@@ -37,5 +55,5 @@
   class="layers-footer__icon"
   [class.disabled]="!hasActiveLayer()"
   [size]="MD_ICON_SIZE"
-  (click)="deleteLayer()"
+  (click)="actions.remove()"
 />

@@ -1,124 +1,47 @@
-import { Component, computed, inject } from '@angular/core';
-import {
-  AddLayerCommand,
-  MoveNodeDownCommand,
-  MoveNodeUpCommand,
-  RemoveLayerCommand,
-} from '../../../../core/commands';
+import { Component, computed, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { MD_ICON_SIZE } from '../../../../core/constants/size.constants';
-import { createPixelLayer } from '../../../../core/factories/layer.factories';
-import { isPixelLayer, NodeRef } from '../../../../core/models/layers';
+import { OptionsBinding } from '../../../../core/models/building-blocks';
 import { LAYER_STORE } from '../../../../core/stores/layers';
-import { CanvasStore } from '../../../../features/pixel-editor/stores/canvas.store';
+import { OptionsList } from '../../../building-blocks/components/options-list/options-list';
+import { ClickOutside } from '../../../building-blocks/directives/click-outside';
 import { Icon } from '../../../icons/components/icon/icon';
-import { HistoryManagerService } from '../../../../core/services/history-manager.service';
+import { LayerActionsService } from '../../services/layer-actions.service';
 
 @Component({
   selector: 'app-layers-footer',
-  imports: [Icon],
+  imports: [Icon, OptionsList, ClickOutside],
   templateUrl: './layers-footer.html',
   styleUrl: './layers-footer.scss',
+  providers: [LayerActionsService],
 })
 export class LayersFooter {
   protected readonly MD_ICON_SIZE = MD_ICON_SIZE;
 
   private readonly layerStore = inject(LAYER_STORE);
-  private readonly canvasStore = inject(CanvasStore);
-  private readonly historyService = inject(HistoryManagerService);
+  protected readonly actions = inject(LayerActionsService);
+
+  private readonly addLayerItemRef = viewChild.required<ElementRef<HTMLDivElement>>('addLayerItem');
+
+  protected readonly isAddLayerItemOptionsVisible = signal<boolean>(false);
 
   protected readonly hasActiveLayer = computed(() => this.layerStore.activeLayerId() !== null);
 
-  // TODO: modify on level editor mode
-  protected addLayer(): void {
-    const layerName = this.layerStore.getLayerItemName('pixel');
-    const layer = createPixelLayer(layerName, this.canvasStore.canvasSize());
+  protected readonly addLayerItemBindings: OptionsBinding[] = [
+    { option: 'Add layer', action: this.actions.addLayer },
+    { option: 'Add Collection', action: this.actions.addCollection },
+  ];
 
-    this.historyService.execute(new AddLayerCommand(layer, this.layerStore));
+  protected toggleLayerItemOptionsVisibility() {
+    this.isAddLayerItemOptionsVisible.update((value) => !value);
   }
 
-  protected duplicateLayer(): void {
-    const active = this.layerStore.activeLayer();
-    if (!active) return;
+  protected onLayerItemOptionSelected() {
+    this.isAddLayerItemOptionsVisible.set(false);
+  }
 
-    if (isPixelLayer(active)) {
-      const data = new ImageData(
-        new Uint8ClampedArray(active.data.data),
-        active.size.width,
-        active.size.height,
-      );
-
-      const duplicate = {
-        ...active,
-        id: crypto.randomUUID(),
-        name: `${active.name} copy`,
-        data,
-      };
-      this.historyService.execute(new AddLayerCommand(duplicate, this.layerStore));
+  protected readonly addItemOptionsAppearanceHandler = (e: PointerEvent) => {
+    if (!this.addLayerItemRef().nativeElement.contains(e.target as Node)) {
+      this.isAddLayerItemOptionsVisible.set(false);
     }
-  }
-  protected mergeLayer(): void {
-    // TODO:
-  }
-
-  protected moveUp(): void {
-    const active = this.layerStore.activeLayer();
-    if (!active) return;
-
-    const nodeRef: NodeRef = {
-      id: active.id,
-      type: 'layer',
-    };
-    const index = this.getNodeIndex(
-      active.id,
-      active.parentId,
-      (index, children) => index >= children.length - 1,
-    );
-    if (index === null) return;
-
-    this.historyService.execute(
-      new MoveNodeUpCommand(nodeRef, active.parentId, index, this.layerStore),
-    );
-  }
-
-  protected moveDown(): void {
-    const active = this.layerStore.activeLayer();
-    if (!active) return;
-
-    const nodeRef: NodeRef = {
-      id: active.id,
-      type: 'layer',
-    };
-
-    const index = this.getNodeIndex(active.id, active.parentId, (index, _) => index === 0);
-    if (index === null) return;
-
-    this.historyService.execute(
-      new MoveNodeDownCommand(nodeRef, active.parentId, index, this.layerStore),
-    );
-  }
-
-  protected deleteLayer(): void {
-    const id = this.layerStore.activeLayerId();
-    if (!id) return;
-
-    this.historyService.execute(new RemoveLayerCommand(id, this.layerStore));
-  }
-
-  private getNodeIndex(
-    nodeId: string,
-    parentId: string | null,
-    extraChek: (index: number, children: NodeRef[]) => boolean,
-  ): number | null {
-    const children = this.getParentChildren(parentId);
-    const index = children.findIndex((layer) => layer.id === nodeId);
-    if (extraChek(index, children)) return null;
-    return index;
-  }
-
-  private getParentChildren(parentId: string | null): NodeRef[] {
-    if (parentId === null) {
-      return this.layerStore.rootChildren();
-    }
-    return this.layerStore.collections()[parentId].children;
-  }
+  };
 }
