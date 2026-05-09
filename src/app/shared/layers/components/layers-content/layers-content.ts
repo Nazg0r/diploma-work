@@ -1,9 +1,5 @@
-import { AfterViewInit, Component, computed, inject } from '@angular/core';
-import { AddCollectionCommand, AddLayerCommand, MoveNodeCommand } from '../../../../core/commands';
-import {
-  createLayerCollection,
-  createPixelLayer,
-} from '../../../../core/factories/layer.factories';
+import { Component, computed, inject } from '@angular/core';
+import { MoveNodeCommand } from '../../../../core/commands';
 import { DropEvent, DropPosition, NodeRef } from '../../../../core/models/layers';
 import { DragContextService } from '../../../../core/services/drag-context.service';
 import { HistoryManagerService } from '../../../../core/services/history-manager.service';
@@ -23,27 +19,12 @@ type ResolveResult =
   styleUrl: './layers-content.scss',
   providers: [DragContextService, ThumbnailService],
 })
-export class LayersContent implements AfterViewInit {
+export class LayersContent {
   protected readonly store = inject(LAYER_STORE);
   private readonly historyService = inject(HistoryManagerService);
   private readonly dragCtx = inject(DragContextService);
 
   protected readonly rootChildren = computed(() => [...this.store.rootChildren()].reverse());
-
-  ngAfterViewInit(): void {
-    const collection = createLayerCollection('Collection');
-    const collection1 = createLayerCollection('Collection1');
-    const collection2 = createLayerCollection('Collection2', collection1.id);
-    collection1.parentId = collection.id;
-
-    const layer = createPixelLayer(`Layer 1`, { height: 10, width: 10 });
-    layer.parentId = collection2.id;
-
-    this.historyService.execute(new AddCollectionCommand(collection, this.store));
-    this.historyService.execute(new AddCollectionCommand(collection1, this.store));
-    this.historyService.execute(new AddCollectionCommand(collection2, this.store));
-    this.historyService.execute(new AddLayerCommand(layer, this.store));
-  }
 
   protected onDrop(event: DropEvent): void {
     const { newParentId, targetIndex } = this.resolveDropTarget(event);

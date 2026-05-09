@@ -2,16 +2,17 @@ import { inject, Injectable } from '@angular/core';
 import {
   AddCollectionCommand,
   AddLayerCommand,
+  MergeLayersCommand,
   MoveNodeDownCommand,
   MoveNodeUpCommand,
   RemoveLayerCommand,
 } from '../../../core/commands';
 import { createLayerCollection, createPixelLayer } from '../../../core/factories/layer.factories';
+import { isPixelLayer, NodeRef } from '../../../core/models/layers';
 import { HistoryManagerService } from '../../../core/services/history-manager.service';
 import { LAYER_STORE } from '../../../core/stores/layers';
-import { CanvasStore } from '../../../features/pixel-editor/stores/canvas.store';
-import { isPixelLayer, NodeRef } from '../../../core/models/layers';
 import { generateId } from '../../../core/utils/id-generation.utils';
+import { CanvasStore } from '../../../features/pixel-editor/stores/canvas.store';
 
 @Injectable()
 export class LayerActionsService {
@@ -47,9 +48,10 @@ export class LayerActionsService {
     this.historyService.execute(new AddLayerCommand(duplicate, this.layerStore));
   }
 
-  merge(): void {
-    // TODO:
-  }
+  mergeDown = (): void =>
+    this.historyService.execute(new MergeLayersCommand(this.layerStore, 'down'));
+
+  mergeUp = (): void => this.historyService.execute(new MergeLayersCommand(this.layerStore, 'up'));
 
   // TODO: modify on level editor mode
   move(direction: 'up' | 'down'): void {
@@ -57,10 +59,10 @@ export class LayerActionsService {
     if (!active) return;
 
     const nodeRef: NodeRef = { id: active.id, type: 'layer' };
-    const children = this.getParentChildren(active.parentId);
-    const index = children.findIndex((n) => n.id === active.id);
+    const siblings = this.layerStore.getLayerSiblings(active.parentId);
+    const index = siblings.findIndex((n) => n.id === active.id);
 
-    const isOutOfBounds = direction === 'up' ? index >= children.length - 1 : index === 0;
+    const isOutOfBounds = direction === 'up' ? index >= siblings.length - 1 : index === 0;
     if (isOutOfBounds) return;
 
     const command =
@@ -75,12 +77,5 @@ export class LayerActionsService {
     const id = this.layerStore.activeLayerId();
     if (!id) return;
     this.historyService.execute(new RemoveLayerCommand(id, this.layerStore));
-  }
-
-  private getParentChildren(parentId: string | null): NodeRef[] {
-    if (parentId === null) {
-      return this.layerStore.rootChildren();
-    }
-    return this.layerStore.collections()[parentId].children;
   }
 }

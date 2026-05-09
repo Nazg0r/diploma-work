@@ -1,18 +1,18 @@
 <div
   class="create-item-container"
-  #addLayerItem
-  [appClickOutside]="isAddLayerItemOptionsVisible()"
+  [appClickOutside]="isAddItemOptionsVisible()"
   [handler]="addItemOptionsAppearanceHandler"
+  #addItem
 >
   <app-icon
     name="plus"
     class="layers-footer__icon"
     [size]="MD_ICON_SIZE"
-    (click)="toggleLayerItemOptionsVisibility()"
+    (click)="toggleAddItemOptionsVisibility()"
   />
   <app-options-list
-    [bindings]="addLayerItemBindings"
-    [visible]="isAddLayerItemOptionsVisible()"
+    [bindings]="addItemBindings"
+    [visible]="isAddItemOptionsVisible()"
     (selected)="onLayerItemOptionSelected()"
     class="create-item__options"
   ></app-options-list>
@@ -26,18 +26,31 @@
   (click)="actions.duplicate()"
 />
 
-<app-icon
-  name="merge"
-  class="layers-footer__icon"
-  [class.disabled]="!hasActiveLayer()"
-  [size]="MD_ICON_SIZE"
-  (click)="actions.merge()"
-/>
+<div
+  class="merge-container"
+  [appClickOutside]="isMergeOptionsVisible()"
+  [handler]="mergeOptionsAppearanceHandler"
+  #merge
+>
+  <app-icon
+    name="merge"
+    class="layers-footer__icon"
+    [class.disabled]="!hasActiveLayer()"
+    [size]="MD_ICON_SIZE"
+    (click)="toggleMergeOptionsVisibility()"
+  />
+  <app-options-list
+    [bindings]="mergeBindings()"
+    [visible]="isMergeOptionsVisible()"
+    (selected)="onMergeOptionSelected()"
+    class="merge__options"
+  ></app-options-list>
+</div>
 
 <app-icon
   name="arrow2"
   class="layers-footer__icon arrow-up"
-  [class.disabled]="!hasActiveLayer()"
+  [class.disabled]="!hasActiveLayer() || !canMoveUp()"
   [size]="MD_ICON_SIZE"
   (click)="actions.move('up')"
 />
@@ -45,7 +58,7 @@
 <app-icon
   name="arrow2"
   class="layers-footer__icon arrow-down"
-  [class.disabled]="!hasActiveLayer()"
+  [class.disabled]="!hasActiveLayer() || !canMoveDown()"
   [size]="MD_ICON_SIZE"
   (click)="actions.move('down')"
 />

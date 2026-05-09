@@ -25,16 +25,11 @@
   transform: rotate(90deg);
 }
 
-.disabled {
-  pointer-events: none;
-  color: var(--color-text-disabled);
-}
-
-.create-item-container {
+.create-item-container, .merge-container {
   position: relative;
 }
 
-.create-item__options {
+.create-item__options, .merge__options {
   position: absolute;
   top: calc(100% + var(--space-1));
   left: 0;
