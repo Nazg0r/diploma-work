@@ -1,6 +1,5 @@
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
-import { HotkeyAction } from '../../constants/hotkey-actions.constants';
-import { KeyCombo } from '../../models/hotkeys';
+import { HotkeyAction, KeyCombo } from '../../models/hotkeys';
 import { initialSettings } from './settings.slice';
 import { resetHotkey, resetHotkeys, setHotkey, setMaxHistorySize } from './settings.updaters';
 

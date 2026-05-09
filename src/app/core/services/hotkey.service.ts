@@ -1,7 +1,6 @@
 import { computed, inject, Injectable } from '@angular/core';
-import { HotkeyAction } from '../constants/hotkey-actions.constants';
 import { SettingsStore } from '../stores/settings/settings.store';
-import { KeyCombo } from '../models/hotkeys';
+import { HotkeyAction, KeyCombo } from '../models/hotkeys';
 import { fromEvent } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
