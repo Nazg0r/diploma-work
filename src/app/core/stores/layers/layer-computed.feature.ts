@@ -22,15 +22,24 @@ export function withLayerComputed() {
           : (store.collections()[layer.parentId]?.children ?? []);
       });
 
+      const activeLayerIndex = computed((): number => {
+        const id = store.activeLayerId();
+        if (!id) return -1;
+        return activeSiblings().findIndex((ref) => ref.id === id);
+      });
+
+      const activeIndexAmongSiblings = computed((): number => {
+        const id = store.activeLayerId();
+        if (!id) return -1;
+        return activeSiblings().findIndex((ref) => ref.id === id);
+      });
+
       return {
         activeLayer,
+
         activeSiblings,
 
-        activeLayerIndex: computed((): number => {
-          const id = store.activeLayerId();
-          if (!id) return -1;
-          return activeSiblings().findIndex((ref) => ref.id === id);
-        }),
+        activeLayerIndex,
 
         visibleLayers: computed(() =>
           Object.values(store.layers()).filter((layer) => layer.isVisible),
@@ -55,6 +64,24 @@ export function withLayerComputed() {
 
           collect(store.rootChildren());
           return result;
+        }),
+
+        canMoveUp: computed(() => {
+          const index = activeIndexAmongSiblings();
+          return index >= 0 && index < activeSiblings().length - 1;
+        }),
+
+        canMoveDown: computed(() => activeIndexAmongSiblings() > 0),
+
+        canMergeUp: computed(() => {
+          const index = activeIndexAmongSiblings();
+          const siblings = activeSiblings();
+          return index >= 0 && index < siblings.length - 1 && siblings[index + 1]?.type === 'layer';
+        }),
+
+        canMergeDown: computed(() => {
+          const index = activeIndexAmongSiblings();
+          return index > 0 && activeSiblings()[index - 1]?.type === 'layer';
         }),
       };
     }),

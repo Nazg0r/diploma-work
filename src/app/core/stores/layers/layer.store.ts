@@ -12,6 +12,10 @@ export interface LayerStore<T extends Layer> {
   readonly activeLayerIndex: Signal<number>;
   readonly visibleLayers: Signal<T[]>;
   readonly layersCount: Signal<number>;
+  readonly canMoveUp: Signal<boolean>;
+  readonly canMoveDown: Signal<boolean>;
+  readonly canMergeUp: Signal<boolean>;
+  readonly canMergeDown: Signal<boolean>;
 
   addLayer(layer: Layer): void;
   removeLayer(id: string): void;
