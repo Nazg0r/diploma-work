@@ -6,6 +6,7 @@ import { Panel } from '../../../../shared/panel-system/components/panel/panel';
 import { Canvas } from '../canvas/canvas';
 import { PixelEditorLayersFooter } from '../pixel-editor-layers-footer/pixel-editor-layers-footer';
 import { PixelEditorLayersContent } from '../pixel-editor-layers-content/pixel-editor-layers-content';
+import { LogActionsBar } from '../../../../shared/panel-system/components/log-actions-bar/log-actions-bar';
 
 @Component({
   selector: 'app-pixel-editor-mode',
@@ -16,6 +17,7 @@ import { PixelEditorLayersContent } from '../pixel-editor-layers-content/pixel-e
     Panel,
     PixelEditorLayersContent,
     PixelEditorLayersFooter,
+    LogActionsBar,
   ],
   templateUrl: './pixel-editor-mode.html',
   providers: [SpriteLayerStore, { provide: LAYER_STORE, useExisting: SpriteLayerStore }],
