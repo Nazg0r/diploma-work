@@ -15,7 +15,7 @@ export class AddCollectionCommand implements Command {
   ) {}
 
   public get label(): string {
-    return `Add collection "${this.collection.name}"`;
+    return `Add New Collection "${this.collection.name}"`;
   }
 
   execute(): void {

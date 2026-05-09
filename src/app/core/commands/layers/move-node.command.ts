@@ -15,7 +15,10 @@ export class MoveNodeCommand implements Command {
     private readonly newParentId: string | null,
     private readonly targetIndex: number,
   ) {
-    this.label = nodeRef.type === 'layer' ? 'Move Layer' : 'Move Collection';
+    this.label =
+      nodeRef.type === 'layer'
+        ? `Move Layer ${store.getLayer(nodeRef.id)?.name}`
+        : `Move Collection ${store.getCollection(nodeRef.id)?.name}`;
   }
 
   execute(): void {

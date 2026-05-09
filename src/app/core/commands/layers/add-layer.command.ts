@@ -15,7 +15,7 @@ export class AddLayerCommand implements Command {
   ) {}
 
   public get label(): string {
-    return `Add Layer "${this.layer.name}"`;
+    return `Add New Layer "${this.layer.name}"`;
   }
 
   execute(): void {

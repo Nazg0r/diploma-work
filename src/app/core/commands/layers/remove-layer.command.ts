@@ -16,7 +16,7 @@ export class RemoveLayerCommand implements Command {
     private readonly layerId: string,
     private readonly store: LayerStoreApi,
   ) {
-    const layer = store.getLayer(this.id);
+    const layer = store.getLayer(layerId);
     this.label = layer ? `Remove "${layer.name}"` : 'Remove Layer';
   }
 

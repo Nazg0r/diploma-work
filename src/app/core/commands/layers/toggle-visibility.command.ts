@@ -3,7 +3,7 @@ import { Layer } from '../../models/layers';
 
 interface LayerStoreApi {
   toggleVisibility(id: string): void;
-  getLayer(id: string): Layer;
+  getLayer(id: string): Layer | null;
 }
 
 export class ToggleVisibilityCommand implements Command {
@@ -15,7 +15,7 @@ export class ToggleVisibilityCommand implements Command {
     private readonly store: LayerStoreApi,
   ) {
     const layer = store.getLayer(layerId);
-    this.label = `Toggle ${layer.name} visibility`;
+    this.label = `Toggle ${layer?.name} visibility`;
   }
 
   execute(): void {

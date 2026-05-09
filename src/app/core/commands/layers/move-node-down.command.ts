@@ -19,8 +19,8 @@ export class MoveNodeDownCommand implements Command {
   ) {
     this.label =
       nodeRef.type === 'layer'
-        ? `Move ${this.store.getLayer(nodeRef.id)} Down`
-        : `Move ${this.store.getCollection(nodeRef.id)} Down`;
+        ? `Move \"${this.store.getLayer(nodeRef.id)?.name}\" Down`
+        : `Move \"${this.store.getCollection(nodeRef.id)?.name}\" Down`;
   }
 
   execute(): void {

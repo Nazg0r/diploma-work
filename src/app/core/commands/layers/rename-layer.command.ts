@@ -6,7 +6,7 @@ interface LayerStoreApi {
 
 export class RenameLayerCommand implements MergeableCommand<RenameLayerCommand> {
   public readonly id = 'rename-layer';
-  public readonly label = 'Rename Layer';
+  public readonly label;
 
   constructor(
     private readonly store: LayerStoreApi,
@@ -14,7 +14,9 @@ export class RenameLayerCommand implements MergeableCommand<RenameLayerCommand> 
     private readonly newName: string,
     private readonly oldName: string,
     public readonly timestamp: number = Date.now(),
-  ) {}
+  ) {
+    this.label = `Rename Layer \"${oldName}\" to \"${newName}\"`;
+  }
 
   public execute(): void {
     this.store.setLayerName(this.layerId, this.newName);
