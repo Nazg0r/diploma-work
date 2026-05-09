@@ -1,6 +1,7 @@
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
+import { updateItemById } from './menu.helpers';
 import { initialMenuSlice } from './menu.slice';
-import { Subject } from 'rxjs';
+import { MenuId } from '../../models/menu.model';
 
 export const MenuStore = signalStore(
   { providedIn: 'root' },
@@ -17,6 +18,10 @@ export const MenuStore = signalStore(
       closeSubmenu: (depth: number) =>
         patchState(store, { openPath: store.openPath().slice(0, depth) }),
       isMenuOpened: (itemId: string, depth: number) => store.openPath()[depth] === itemId,
+      registerAction: (itemId: MenuId, action: () => void) =>
+        patchState(store, {
+          items: updateItemById(store.items(), itemId, (item) => ({ ...item, action })),
+        }),
     };
   }),
 );
