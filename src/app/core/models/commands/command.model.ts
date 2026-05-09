@@ -13,7 +13,5 @@ export interface MergeableCommand<T extends Command = MergeableCommand<any>> ext
 }
 
 export function isMergeable(cmd: Command): cmd is MergeableCommand {
-  return (
-    'canMergeWith' in cmd && typeof (cmd as { canMergeWith: unknown }).canMergeWith === 'function'
-  );
+  return 'canMerge' in cmd && typeof (cmd as { canMerge: unknown }).canMerge === 'function';
 }
