@@ -1,7 +1,9 @@
 @if (visible()) {
-  <ul class="options-list" >
+  <ul class="options-list">
     @for (binding of extendedBindings(); track binding.option) {
-      <li class="options-item" (click)="binding.action()">{{ binding.option }}</li>
+      <li class="options-item" [class.disabled]="binding.isDisabled" (click)="binding.action()">
+        {{ binding.option }}
+      </li>
     }
   </ul>
 }

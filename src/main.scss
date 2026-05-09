@@ -37,3 +37,8 @@ ul {
 .active-option {
   background: var(--color-accent);
 }
+
+.disabled {
+  pointer-events: none;
+  color: var(--color-text-disabled);
+}
