@@ -1,5 +1,5 @@
-import { BlendMode, Layer, LayerCollection, LayerItemKind, NodeRef } from '../../models/layers';
 import { Signal } from '@angular/core';
+import { BlendMode, Layer, LayerCollection, LayerItemKind, NodeRef } from '../../models/layers';
 
 export interface LayerStore<T extends Layer> {
   readonly layers: Signal<Record<string, T>>;
@@ -8,10 +8,12 @@ export interface LayerStore<T extends Layer> {
   readonly rootChildren: Signal<NodeRef[]>;
 
   readonly activeLayer: Signal<T | null>;
+  readonly activeSiblings: Signal<NodeRef[]>;
+  readonly activeLayerIndex: Signal<number>;
   readonly visibleLayers: Signal<T[]>;
   readonly layersCount: Signal<number>;
 
-  addLayer(layer: T): void;
+  addLayer(layer: Layer): void;
   removeLayer(id: string): void;
   setActiveLayer(id: string | null): void;
   toggleVisibility(id: string): void;
@@ -30,5 +32,6 @@ export interface LayerStore<T extends Layer> {
 
   getLayer(id: string): T | null;
   getCollection(id: string): LayerCollection | null;
-  getLayerItemName(kind: LayerItemKind) : string;
+  getLayerItemName(kind: LayerItemKind): string;
+  getLayerSiblings(parentId: string | null): NodeRef[];
 }

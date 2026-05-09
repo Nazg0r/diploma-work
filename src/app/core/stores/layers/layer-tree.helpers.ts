@@ -1,14 +1,6 @@
 import { Layer, NodeRef } from '../../models/layers';
 import { LayerSlice } from './layer.slice';
 
-export function getChildrenOf<T extends Layer>(
-  parentId: string | null,
-  store: LayerSlice<T>,
-): NodeRef[] {
-  if (parentId === null) return store.rootChildren;
-  return store.collections[parentId]?.children ?? [];
-}
-
 export function updateChildren<T extends Layer>(
   parentId: string | null,
   store: LayerSlice<T>,
