@@ -1,8 +1,8 @@
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { initialCanvasSlice } from './canvas.slice';
-import { Size } from '../../../core/models/canvas.model';
+import { Size } from '../../../../core/models/canvas.model';
 import { changeCanvasSize, setGridConfig, syncZoom } from './canvas.updaters';
-import { GridConfig } from '../engine/grid';
+import { GridConfig } from '../../engine/grid';
 
 export const CanvasStore = signalStore(
   {providedIn: 'root'},
