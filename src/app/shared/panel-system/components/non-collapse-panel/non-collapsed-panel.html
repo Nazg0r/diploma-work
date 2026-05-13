@@ -1,0 +1,24 @@
+@let p = panel();
+
+<span class="non-collapse-panel__title" (pointerdown)="onHideClick($event)">
+  {{ p.title }}
+</span>
+
+<div class="non-collapse-panel-header">
+  <app-icon
+    name="grab"
+    [size]="MD_ICON_SIZE"
+    class="non-collapse-panel-header__drag"
+    appPanelDrag
+    [startPos]="p.position"
+    (dragMove)="onPositionChange($event)"
+  />
+</div>
+
+<div class="panel-content">
+  <ng-content select="[panel-content]" />
+</div>
+
+<div class="panel-footer">
+  <ng-content select="[panel-footer]" />
+</div>

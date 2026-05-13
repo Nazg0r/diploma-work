@@ -1,20 +1,16 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import {
   HIDDEN_PANEL_WIDTH,
   LG_ICON_SIZE,
   MD_ICON_SIZE,
   SM_ICON_SIZE,
 } from '../../../../core/constants/size.constants';
-import { Rect, Vector2 } from '../../../../core/models/canvas.model';
-import { PanelId } from '../../../../core/models/panel.model';
-import { PanelAnchoringService } from '../../../../core/services/panel-anchoring.service';
-import { PanelLayoutService } from '../../../../core/services/panel-layout.service';
-import { ViewportService } from '../../../../core/services/viewport.service';
-import { PanelStore } from '../../../../core/stores/panels/panel.store';
+import { ARROW_ROTATION } from '../../../../core/models/anchor.model';
+import { Rect } from '../../../../core/models/canvas.model';
 import { Icon } from '../../../icons/components/icon/icon';
+import { PanelBase } from '../../directives/panel-base';
 import { PanelDrag } from '../../directives/panel-drag';
 import { PanelResize } from '../../directives/panel-resize';
-import { ANCHOR_META, ARROW_ROTATION } from '../../../../core/models/anchor.model';
 
 @Component({
   selector: 'app-panel',
@@ -29,25 +25,14 @@ import { ANCHOR_META, ARROW_ROTATION } from '../../../../core/models/anchor.mode
     '(mouseleave)': 'onMouseLeave()',
   },
 })
-export class Panel {
-  public readonly id = input.required<PanelId>({ alias: 'panelId' });
-
-  protected readonly store = inject(PanelStore);
-  protected readonly anchoringService = inject(PanelAnchoringService);
-  protected readonly viewportService = inject(ViewportService);
-  protected readonly panelLayoutService = inject(PanelLayoutService);
-
+export class Panel extends PanelBase {
   protected readonly SM_ICON_SIZE = SM_ICON_SIZE;
   protected readonly MD_ICON_SIZE = MD_ICON_SIZE;
   protected readonly LG_ICON_SIZE = LG_ICON_SIZE;
 
-  protected readonly panel = computed(() => this.store.panels()[this.id()]);
-
   protected readonly isHovered = signal(false);
   protected readonly isHidden = computed(() => this.panel().state === 'hidden');
   protected readonly isExpanded = computed(() => this.panel().state === 'expanded');
-
-  protected readonly anchorMeta = computed(() => ANCHOR_META[this.panel().anchor]);
 
   protected readonly hostClasses = computed(() => {
     const state = this.panel().state;
@@ -62,66 +47,18 @@ export class Panel {
       .join(' ');
   });
 
-  protected readonly horizontalPosition = computed(() => {
-    const { position, size } = this.panel();
-    const meta = this.anchorMeta();
-    const transform = meta.centered ? 'translateX(-50%)' : 'none';
-
-    if (meta.positioning === 'top-right') {
-      return {
-        right: `${this.viewportService.width() - position.x - size.width}px`,
-        left: 'auto',
-        transform,
-      };
-    }
-
-    return {
-      left: `${position.x}px`,
-      right: 'auto',
-      transform,
-    };
-  });
-
-  protected readonly verticalPosition = computed(() => {
-    const { position, size } = this.panel();
-    const meta = this.anchorMeta();
-
-    if (meta.positioning === 'bottom-center') {
-      let bottomDistance = this.viewportService.height() - position.y - size.height;
-      return {
-        bottom: `${bottomDistance}px`,
-        top: 'auto',
-      };
-    }
-
-    return {
-      top: `${position.y}px`,
-      bottom: 'auto',
-    };
-  });
-
   protected readonly arrowRotation = computed(() => {
     const meta = this.anchorMeta();
 
     if (this.isExpanded()) return ARROW_ROTATION[meta.expandedArrowDirection];
     if (this.isHidden()) return ARROW_ROTATION[meta.hiddenArrowDirection];
 
-    return 0;
+    return ARROW_ROTATION['up'];
   });
 
   protected readonly arrowStyle = computed(() => ({
     transform: `rotate(${this.arrowRotation()}deg)`,
   }));
-
-  protected readonly hideButtonStyle = computed(() => {
-    const isLeftAligned = this.anchorMeta().positioning === 'top-left';
-
-    return {
-      left: isLeftAligned ? 0 : 'auto',
-      right: isLeftAligned ? 'auto' : 0,
-      transform: isLeftAligned ? 'rotate(180deg)' : 'none',
-    };
-  });
 
   protected readonly headerInfoStyle = computed(() => ({
     flexDirection: this.anchorMeta().headerFlexDirection,
@@ -198,15 +135,5 @@ export class Panel {
       : { x: rect.x, y: rect.y };
 
     this.store.updatePosition(this.id(), newPosition);
-  }
-
-  protected onPositionChange(position: Vector2): void {
-    const { anchor, size } = this.panel();
-    const clamped = this.panelLayoutService.clampToViewport(position, anchor, size);
-    this.store.updatePosition(this.id(), clamped);
-  }
-
-  protected onPointerDown() {
-    this.store.bringToForward(this.id());
   }
 }

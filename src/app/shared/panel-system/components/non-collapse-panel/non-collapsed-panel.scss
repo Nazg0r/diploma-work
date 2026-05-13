@@ -1,0 +1,50 @@
+$border: var(--size-border) solid var(--color-border);
+
+:host {
+  position: fixed;
+  background: var(--color-bg-bar);
+  color: var(--color-text-primary);
+  border: $border;
+  user-select: none;
+}
+
+.non-collapse-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & .panel-header__drag--active {
+    cursor: grabbing;
+    color: var(--color-accent);
+  }
+}
+
+.non-collapse-panel-header__drag {
+  cursor: grab;
+  color: var(--color-text-primary);
+
+  &:hover {
+    color: var(--color-hovered);
+  }
+}
+
+.non-collapse-panel__title {
+  position: absolute;
+  bottom: calc(100% + var(--space-1));
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  color: var(--color-text-secondary);
+
+  &:hover {
+    color: var(--color-accent);
+  }
+
+  &:active {
+    cursor: auto;
+  }
+}
+
+.panel-content {
+  margin-bottom: var(--space-2);
+}
