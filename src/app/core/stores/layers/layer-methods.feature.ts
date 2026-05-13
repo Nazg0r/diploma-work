@@ -15,6 +15,9 @@ export function withLayerMethods() {
 
       setActiveLayer: (id: string | null) => patchState(store, updaters.setActiveLayer(id)),
 
+      setLayerProperties: (id: string, properties: Partial<Layer>) =>
+        patchState(store, updaters.setLayerProperties(id, properties)),
+
       toggleVisibility: (id: string) => patchState(store, updaters.toggleVisibility(id)),
 
       toggleLock: (id: string) => patchState(store, updaters.toggleLock(id)),

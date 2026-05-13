@@ -56,6 +56,9 @@ export function setActiveLayer<T extends Layer>(
   });
 }
 
+export const setLayerProperties = <T extends Layer>(id: string, properties: Partial<Layer>) =>
+  updateLayer<T>(id, (current) => ({ ...current, ...properties }));
+
 export const toggleVisibility = <T extends Layer>(id: string) =>
   updateLayer<T>(id, (layer) => ({
     ...layer,

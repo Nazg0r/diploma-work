@@ -20,6 +20,7 @@ export interface LayerStore<T extends Layer> {
   addLayer(layer: Layer): void;
   removeLayer(id: string): void;
   setActiveLayer(id: string | null): void;
+  setLayerProperties(id: string, properties: Partial<Layer>): void;
   toggleVisibility(id: string): void;
   toggleLock(id: string): void;
   setLayerName(id: string, name: string): void;
