@@ -18,4 +18,8 @@ export interface Rect {
 export interface CanvasInputHandlerOptions {
   onZoom: (focusPoint: Vector2, factor: number) => void;
   onPan: (delta: Vector2) => void;
+  onToolPointerDown?: (screenPoint: Vector2) => void;
+  onToolPointerMove?: (screenPoint: Vector2) => void;
+  onToolPointerUp?: (screenPoint: Vector2) => void;
+  onToolPointerCancel?: () => void;
 }

@@ -1,21 +1,25 @@
-import { Size, Vector2 } from '../../../core/models/canvas.model';
+import { CanvasInputHandlerOptions, Size, Vector2 } from '../../../core/models/canvas.model';
 import { Viewport } from '../../../core/models/viewport.model';
 import { DEFAULT_VIEWPORT_CONFIG } from '../constants/viewport.constants';
-import { CanvasInputHandler } from './input/canvas-input-handler';
-import { RenderLoop } from './render/render-loop';
+import { RenderLoop } from './engine-renderer/render-loop';
 import { ViewportController } from './viewport/viewport-controller';
+import { CanvasInputHandler } from './input/canvas-input-handler';
 
 export abstract class CanvasEngine {
   protected canvas!: HTMLCanvasElement;
   protected ctx!: CanvasRenderingContext2D;
+  protected renderLoop: RenderLoop;
   protected canvasSize!: Size;
   protected viewportController!: ViewportController;
-  private renderLoop!: RenderLoop;
   private inputHandler!: CanvasInputHandler;
 
   public abstract render(): void;
 
   public onViewportChange: ((viewport: Viewport) => void) | null = null;
+
+  protected constructor() {
+    this.renderLoop = new RenderLoop(() => this.render());
+  }
 
   public mount(canvas: HTMLCanvasElement, canvasSize: Size): void {
     this.canvas = canvas;
@@ -34,9 +38,8 @@ export abstract class CanvasEngine {
       this.onViewportChange?.(vp);
     };
 
-    this.renderLoop = new RenderLoop(() => this.render());
 
-    this.inputHandler = new CanvasInputHandler(canvas, {
+    const baseOptions: CanvasInputHandlerOptions = {
       onZoom: (point, factor) => {
         this.viewportController.zoomAt(point, factor);
         this.renderLoop.markDirty();
@@ -45,7 +48,10 @@ export abstract class CanvasEngine {
         this.viewportController.pan(delta);
         this.renderLoop.markDirty();
       },
-    });
+    };
+    const options = this.buildInputOptions(baseOptions);
+
+    this.inputHandler = new CanvasInputHandler(canvas, options);
 
     this.viewportController.center();
     this.inputHandler.bind();
@@ -110,8 +116,8 @@ export abstract class CanvasEngine {
     this.renderLoop.markDirty();
   }
 
-  protected markDirty(): void {
-    this.renderLoop.markDirty();
+  protected buildInputOptions(base: CanvasInputHandlerOptions): CanvasInputHandlerOptions {
+    return base;
   }
 
   private fitCanvas() {
