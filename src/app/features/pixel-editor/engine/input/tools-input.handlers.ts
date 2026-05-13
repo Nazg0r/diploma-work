@@ -2,7 +2,7 @@ import { Vector2 } from '../../../../core/models/canvas.model';
 import { ToolContext } from '../../../../core/models/tools/tool-context.model';
 import { ToolContextService } from '../../services/tool-context.service';
 import { Tool } from '../../tools/tool';
-import { RenderLoop } from '../render/render-loop';
+import { RenderLoop } from '../engine-renderer/render-loop';
 import { ViewportController } from '../viewport/viewport-controller';
 
 export class ToolsInputHandlers {
