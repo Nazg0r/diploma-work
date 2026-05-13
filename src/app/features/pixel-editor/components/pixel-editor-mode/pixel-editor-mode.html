@@ -10,5 +10,17 @@
 </app-panel>
 <app-panel [panelId]="'preview'"></app-panel>
 <app-panel [panelId]="'tileset'"></app-panel>
+<app-non-collapse-panel [panelId]="'tools'">
+  <ng-container panel-content>
+    <app-pixel-editor-toolbar-content />
+  </ng-container>
+  <ng-container panel-footer>
+    <app-pixel-editor-toolbar-footer />
+  </ng-container>
+</app-non-collapse-panel>
+
+<app-tool-options-bar>
+  <app-pencil-tool-options></app-pencil-tool-options>
+</app-tool-options-bar>
 <app-canvas-controls></app-canvas-controls>
 <app-log-actions-bar></app-log-actions-bar>

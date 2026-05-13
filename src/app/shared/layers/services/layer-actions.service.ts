@@ -12,7 +12,7 @@ import { isPixelLayer, NodeRef } from '../../../core/models/layers';
 import { HistoryManagerService } from '../../../core/services/history-manager.service';
 import { LAYER_STORE } from '../../../core/stores/layers';
 import { generateId } from '../../../core/utils/id-generation.utils';
-import { CanvasStore } from '../../../features/pixel-editor/stores/canvas.store';
+import { CanvasStore } from '../../../features/pixel-editor/stores/canvas/canvas.store';
 
 @Injectable()
 export class LayerActionsService {
