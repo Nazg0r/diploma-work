@@ -56,6 +56,11 @@ export class ViewportController {
     };
   }
 
+  public isInsideCanvas(point: Vector2): boolean {
+    const { width, height } = this.getCanvasSize();
+    return point.x >= 0 && point.y >= 0 && point.x < width && point.y < height;
+  }
+
   public zoomAt(focusPoint: Vector2, factor: number): void {
     const newZoom = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, this.viewport.zoom * factor));
     if (newZoom === this.viewport.zoom) return;
