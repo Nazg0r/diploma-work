@@ -1,5 +1,5 @@
 import { effect, inject, Injectable } from '@angular/core';
-import { PANEL_EDGE_OFFSET } from '../constants/panel.constatns';
+import { PANEL_EDGE_OFFSET } from '../constants/ui-elems.constants';
 import { Size, Vector2 } from '../models/canvas.model';
 import { PanelAnchor, PanelModel } from '../models/panel.model';
 import { PanelStore } from '../stores/panels/panel.store';

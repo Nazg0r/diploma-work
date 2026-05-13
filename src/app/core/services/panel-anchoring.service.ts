@@ -1,16 +1,14 @@
-import { inject, Injectable, signal } from '@angular/core';
-import { Vector2 } from '../models/canvas.model';
-import { PanelAnchor, PanelModel } from '../models/panel.model';
-import { ViewportService } from './viewport.service';
+import { inject, Injectable } from '@angular/core';
 import {
   HORIZONTAL_PANEL_GAP,
   PANEL_EDGE_OFFSET,
   PANEL_VERTICAL_START_Y,
   VERTICAL_PANEL_GAP,
-} from '../constants/panel.constatns';
+} from '../constants/ui-elems.constants';
 import { ANCHOR_META, AnchorPositioning } from '../models/anchor.model';
-
-
+import { Vector2 } from '../models/canvas.model';
+import { PanelModel } from '../models/panel.model';
+import { ViewportService } from './viewport.service';
 
 @Injectable({ providedIn: 'root' })
 export class PanelAnchoringService {

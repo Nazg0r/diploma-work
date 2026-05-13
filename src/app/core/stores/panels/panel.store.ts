@@ -27,7 +27,6 @@ export const PanelStore = signalStore(
       expandedPanels: computed(() => filterPanelsByState('expanded')),
       collapsedPanels: computed(() => filterPanelsByState('collapsed')),
       hiddenPanels: computed(() => filterPanelsByState('hidden')),
-      staticPanels: computed(() => filterPanelsByState('static')),
       inactivePanels: computed(() => filterPanelsByState('inactive')),
     };
   }),
