@@ -11,12 +11,19 @@ export class Slider {
   public readonly min = input<number>(0);
   public readonly max = input<number>(100);
   public readonly step = input<number>(1);
+  public readonly suffix = input<string>('%');
 
   public readonly valueChange = output<number>();
 
   protected readonly track = viewChild.required<ElementRef<HTMLDivElement>>('track');
 
   private isDragging = false;
+
+  private readonly precision = computed(() => {
+    const s = this.step().toString();
+    const dot = s.indexOf('.');
+    return dot === -1 ? 0 : s.length - dot - 1;
+  });
 
   protected readonly fillPercent = computed(() => {
     const range = this.max() - this.min();
@@ -25,7 +32,7 @@ export class Slider {
     return Math.max(0, Math.min(100, percent));
   });
 
-  protected readonly displayValue = computed(() => Math.round(this.value()));
+  protected readonly displayValue = computed(() => this.value().toFixed(this.precision()));
 
   protected onPointerDown(e: PointerEvent): void {
     e.preventDefault();
@@ -47,14 +54,13 @@ export class Slider {
 
   private moveTrack(clientX: number): void {
     const rect = this.track().nativeElement.getBoundingClientRect();
-    const ratio = (clientX - rect.left) / rect.width;
-    const clamped = Math.max(0, Math.min(1, ratio));
+    const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
 
     const range = this.max() - this.min();
-    const rawValue = this.min() + clamped * range;
+    const rawValue = this.min() + ratio * range;
 
     const stepped = Math.round(rawValue / this.step()) * this.step();
-    const final = Math.max(this.min(), Math.min(this.max(), stepped));
+    const final = Math.max(this.min(), Math.min(this.max(), +stepped.toFixed(this.precision())));
 
     if (final !== this.value()) {
       this.valueChange.emit(final);

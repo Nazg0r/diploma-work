@@ -13,7 +13,7 @@ import { Size } from '../../../../core/models/canvas.model';
 import { Viewport } from '../../../../core/models/viewport.model';
 import { DEFAULT_VIEWPORT_CONFIG } from '../../constants/viewport.constants';
 import { PixelEditorEngine } from '../../engine/pixel-editor-engine';
-import { CanvasStore } from '../../stores/canvas.store';
+import { CanvasStore } from '../../stores/canvas/canvas.store';
 import { Scrollbar } from '../scrollbar/scrollbar';
 import {
   calculateHorizontalScrollbar,
@@ -63,15 +63,17 @@ export class Canvas implements AfterViewInit, OnDestroy {
     );
   });
 
-  ngAfterViewInit(): void {
-    this.engine.mount(this.canvasRef()!.nativeElement, this.store.canvasSize());
-    this.engine.onViewportChange = (vp) => this.viewport.set(vp);
-    this.watchResize();
-
+  constructor() {
     effect(() => {
       const gridConfig = this.store.gridConfig();
       this.engine.changeGridConfig(gridConfig);
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.engine.mount(this.canvasRef()!.nativeElement, this.store.canvasSize());
+    this.engine.onViewportChange = (vp) => this.viewport.set(vp);
+    this.watchResize();
   }
 
   private watchResize(): void {
