@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LayersContent } from '../../../../shared/layers/components';
+import { LayersContent } from '../../../../../shared/layers/components';
 
 @Component({
   selector: 'app-pixel-editor-layers-content',

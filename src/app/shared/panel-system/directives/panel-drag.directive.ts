@@ -4,7 +4,7 @@ import { Vector2 } from '../../../core/models/canvas.model';
 @Directive({
   selector: '[appPanelDrag]',
 })
-export class PanelDrag {
+export class PanelDragDirective {
   public readonly startPos = input.required<{ x: number; y: number }>();
   public readonly dragMove = output<Vector2>();
 

@@ -8,9 +8,9 @@ import {
   output,
   viewChild,
 } from '@angular/core';
-import { ScrollbarOrientation, ScrollbarState } from '../../../../core/models/scrollbar.model';
+import { ScrollbarOrientation, ScrollbarState } from '../../../../../core/models/scrollbar.model';
 import { positionToOffset } from './scrollbar.utils';
-import { HOLD_TIMEOUT, INTERVAL_DELAY } from '../../constants/scrollbar.constants';
+import { HOLD_TIMEOUT, INTERVAL_DELAY } from '../../../constants/scrollbar.constants';
 
 @Component({
   selector: 'app-scrollbar',

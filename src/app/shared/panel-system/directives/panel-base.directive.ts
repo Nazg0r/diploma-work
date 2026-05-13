@@ -8,7 +8,7 @@ import { ANCHOR_META } from '../../../core/models/anchor.model';
 import { Vector2 } from '../../../core/models/canvas.model';
 
 @Directive()
-export abstract class PanelBase {
+export abstract class PanelBaseDirective {
   public readonly id = input.required<PanelId>({ alias: 'panelId' });
 
   protected readonly store = inject(PanelStore);

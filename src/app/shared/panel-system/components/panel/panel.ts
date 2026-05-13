@@ -8,13 +8,13 @@ import {
 import { ARROW_ROTATION } from '../../../../core/models/anchor.model';
 import { Rect } from '../../../../core/models/canvas.model';
 import { Icon } from '../../../icons/components/icon/icon';
-import { PanelBase } from '../../directives/panel-base';
-import { PanelDrag } from '../../directives/panel-drag';
-import { PanelResize } from '../../directives/panel-resize';
+import { PanelBaseDirective } from '../../directives/panel-base.directive';
+import { PanelDragDirective } from '../../directives/panel-drag.directive';
+import { PanelResizeDirective } from '../../directives/panel-resize.directive';
 
 @Component({
   selector: 'app-panel',
-  imports: [PanelResize, PanelDrag, Icon],
+  imports: [PanelResizeDirective, PanelDragDirective, Icon],
   templateUrl: './panel.html',
   styleUrl: './panel.scss',
   host: {
@@ -25,7 +25,7 @@ import { PanelResize } from '../../directives/panel-resize';
     '(mouseleave)': 'onMouseLeave()',
   },
 })
-export class Panel extends PanelBase {
+export class Panel extends PanelBaseDirective {
   protected readonly SM_ICON_SIZE = SM_ICON_SIZE;
   protected readonly MD_ICON_SIZE = MD_ICON_SIZE;
   protected readonly LG_ICON_SIZE = LG_ICON_SIZE;

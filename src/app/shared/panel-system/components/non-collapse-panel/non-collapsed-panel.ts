@@ -1,12 +1,12 @@
 import { Component, computed } from '@angular/core';
 import { Icon } from '../../../icons/components/icon/icon';
-import { PanelBase } from '../../directives/panel-base';
-import { PanelDrag } from '../../directives/panel-drag';
+import { PanelBaseDirective } from '../../directives/panel-base.directive';
+import { PanelDragDirective } from '../../directives/panel-drag.directive';
 import { MD_ICON_SIZE } from '../../../../core/constants/size.constants';
 
 @Component({
   selector: 'app-non-collapse-panel',
-  imports: [Icon, PanelDrag],
+  imports: [Icon, PanelDragDirective],
   templateUrl: './non-collapsed-panel.html',
   styleUrl: './non-collapsed-panel.scss',
   host: {
@@ -14,7 +14,7 @@ import { MD_ICON_SIZE } from '../../../../core/constants/size.constants';
     '(pointerdown)': 'onPointerDown()',
   },
 })
-export class NonCollapsedPanel extends PanelBase {
+export class NonCollapsedPanel extends PanelBaseDirective {
   protected readonly panelStyles = computed(() => {
     const { zIndex, size } = this.panel();
     return {

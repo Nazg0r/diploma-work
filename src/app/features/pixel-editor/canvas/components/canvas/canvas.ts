@@ -9,11 +9,11 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { Size } from '../../../../core/models/canvas.model';
-import { Viewport } from '../../../../core/models/viewport.model';
-import { DEFAULT_VIEWPORT_CONFIG } from '../../constants/viewport.constants';
-import { PixelEditorEngine } from '../../engine/pixel-editor-engine';
-import { CanvasStore } from '../../stores/canvas/canvas.store';
+import { Size } from '../../../../../core/models/canvas.model';
+import { Viewport } from '../../../../../core/models/viewport.model';
+import { DEFAULT_VIEWPORT_CONFIG } from '../../../constants/viewport.constants';
+import { PixelEditorEngine } from '../../../engine/pixel-editor-engine';
+import { CanvasStore } from '../../../stores/canvas/canvas.store';
 import { Scrollbar } from '../scrollbar/scrollbar';
 import {
   calculateHorizontalScrollbar,

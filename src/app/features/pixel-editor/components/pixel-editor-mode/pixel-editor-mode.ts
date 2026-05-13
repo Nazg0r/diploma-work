@@ -7,10 +7,10 @@ import { NonCollapsedPanel } from '../../../../shared/panel-system/components/no
 import { Panel } from '../../../../shared/panel-system/components/panel/panel';
 import { ToolOptionsBar } from '../../../../shared/panel-system/components/tool-options-bar/tool-options-bar';
 import { ToolContextService } from '../../services/tool-context.service';
-import { Canvas } from '../canvas/canvas';
+import { Canvas } from '../../canvas/components/canvas/canvas';
 import { PencilToolOptions } from '../../tools/components/pencil-tool-options/pencil-tool-options';
-import { PixelEditorLayersContent } from '../pixel-editor-layers-content/pixel-editor-layers-content';
-import { PixelEditorLayersFooter } from '../pixel-editor-layers-footer/pixel-editor-layers-footer';
+import { PixelEditorLayersContent } from '../../layers/components/pixel-editor-layers-content/pixel-editor-layers-content';
+import { PixelEditorLayersFooter } from '../../layers/components/pixel-editor-layers-footer/pixel-editor-layers-footer';
 import { PixelEditorToolbarContent } from '../../tools/components/pixel-editor-toolbar-content/pixel-editor-toolbar-content';
 import {
   PixelEditorToolbarFooter

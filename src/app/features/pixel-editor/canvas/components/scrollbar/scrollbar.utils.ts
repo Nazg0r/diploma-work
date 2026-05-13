@@ -1,7 +1,7 @@
-import { Size } from '../../../../core/models/canvas.model';
-import { ScrollbarState } from '../../../../core/models/scrollbar.model';
-import { Viewport } from '../../../../core/models/viewport.model';
-import { MIN_SCROLLBAR_SIZE } from '../../constants/scrollbar.constants';
+import { Size } from '../../../../../core/models/canvas.model';
+import { ScrollbarState } from '../../../../../core/models/scrollbar.model';
+import { Viewport } from '../../../../../core/models/viewport.model';
+import { MIN_SCROLLBAR_SIZE } from '../../../constants/scrollbar.constants';
 
 export function calculateHorizontalScrollbar(
   viewport: Viewport,

@@ -4,7 +4,7 @@ import { Rect, Size, Vector2 } from '../../../core/models/canvas.model';
 @Directive({
   selector: '[appPanelResize]',
 })
-export class PanelResize {
+export class PanelResizeDirective {
   public readonly edge = input.required<string>({ alias: 'appPanelResize' });
   public readonly resizeChange = output<Rect>();
   public readonly minSize = input.required<Size>();

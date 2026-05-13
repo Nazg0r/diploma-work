@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LayersFooter } from '../../../../shared/layers/components';
+import { LayersFooter } from '../../../../../shared/layers/components';
 
 @Component({
   selector: 'app-pixel-editor-layers-footer',
