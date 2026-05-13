@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: calc(var(--size-panels-static) + 2 * var(--space-4));
+  left: var(--space-4);
+  background: var(--color-bg-info);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-md);
+  font-family: var(--font-mono), sans-serif;
+  max-width: var(--size-options-bar-max-width);
+  transition: none;
+}
