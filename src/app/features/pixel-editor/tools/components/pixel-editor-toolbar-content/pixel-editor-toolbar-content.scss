@@ -1,0 +1,31 @@
+$border: var(--size-border) solid var(--color-border);
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-md);
+}
+
+.tool__frame {
+  background: var(--color-idle);
+  border: $border;
+  width: var(--size-icon-frame);
+  height: var(--size-icon-frame);
+
+  &:hover:not(&--active) {
+    cursor: pointer;
+    background: var(--color-hovered);
+  }
+
+  &--active {
+    background: var(--color-accent);
+  }
+}
+
+.tool__icon {
+  position: relative;
+  top:0;
+  left: 0;
+}

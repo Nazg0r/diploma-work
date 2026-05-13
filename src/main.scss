@@ -2,13 +2,16 @@
 @use 'styles/tokens/sizes';
 @use 'styles/tokens/typography';
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   overflow: hidden;
 }
@@ -36,6 +39,16 @@ ul {
 
 .active-option {
   background: var(--color-accent);
+}
+
+.interactive-icon {
+  cursor: pointer;
+  &:hover {
+    color: var(--color-hovered);
+  }
+  &:active {
+    color: var(--color-accent);
+  }
 }
 
 .disabled {

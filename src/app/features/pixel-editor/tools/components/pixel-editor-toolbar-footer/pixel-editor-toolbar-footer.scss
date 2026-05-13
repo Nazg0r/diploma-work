@@ -1,0 +1,7 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: var(--size-border) solid var(--color-border);
+  padding: var(--space-1);
+}

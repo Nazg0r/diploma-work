@@ -1,0 +1,11 @@
+@let tools = this.toolRegistry.getToolbarTools();
+
+@for (tool of tools; track tool.id) {
+  <div
+    class="tool__frame"
+    (click)="select(tool.id)"
+    [class.tool__frame--active]="isActive(tool.id)"
+  >
+    <app-icon class="tool__icon" [size]="LG_ICON_SIZE" [name]="tool.icon"></app-icon>
+  </div>
+}
