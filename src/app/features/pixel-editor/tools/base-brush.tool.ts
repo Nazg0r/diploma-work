@@ -1,7 +1,8 @@
 import { inject } from '@angular/core';
 import { PaintPixelsCommand } from '../../../core/commands/tools/paint-pixels.command';
 import { Size, Vector2 } from '../../../core/models/canvas.model';
-import { PixelChange, RGBA } from '../../../core/models/pixel-change.model';
+import { RGBA } from '../../../core/models/palette/color.model';
+import { PixelChange } from '../../../core/models/pixel-change.model';
 import { ToolContext, ToolId } from '../../../core/models/tools/tool-context.model';
 import { HistoryManagerService } from '../../../core/services/history-manager.service';
 import { applyPerfectPixel, bresenhamLine, getBrushPoints } from '../utils/tool.util';
@@ -21,7 +22,7 @@ export abstract class BaseBrushTool implements Tool {
   private strokePoints: Vector2[] = [];
   protected previewChanges = new Map<string, PixelChange>();
 
-  protected getNewColor = (ctx: ToolContext): RGBA => [0, 0, 0, 0];
+  protected getNewColor = (ctx: ToolContext): RGBA => ({ r: 0, g: 0, b: 0, a: 0 });
   protected usePerfectPixel = (ctx: ToolContext): boolean => ctx.perfectPixel;
 
   public onStrokeStart(point: Vector2, ctx: ToolContext): void {
@@ -38,7 +39,7 @@ export abstract class BaseBrushTool implements Tool {
     const linePoints = bresenhamLine(this.lastPoint, point);
 
     if (this.usePerfectPixel(ctx)) {
-    console.log(this.usePerfectPixel(ctx));
+      console.log(this.usePerfectPixel(ctx));
       this.strokePoints.push(...linePoints.slice(1));
       const corrected = applyPerfectPixel(this.strokePoints);
       this.previewChanges.clear();
@@ -69,7 +70,7 @@ export abstract class BaseBrushTool implements Tool {
     if (this.previewChanges.size === 0) return;
 
     for (const change of this.previewChanges.values()) {
-      const [r, g, b, a] = change.newColor;
+      const { r, g, b, a } = change.newColor;
       ctx.fillStyle = `rgba(${r},${g},${b},${a / 255})`;
       ctx.fillRect(change.x, change.y, 1, 1);
     }
@@ -102,7 +103,7 @@ export abstract class BaseBrushTool implements Tool {
 
   private getPixelColor(point: Vector2, width: number, data: Uint8ClampedArray): RGBA {
     const i = (point.y * width + point.x) * 4;
-    return [data[i], data[i + 1], data[i + 2], data[i + 3]];
+    return { r: data[i], g: data[i + 1], b: data[i + 2], a: data[i + 3] };
   }
 
   private upsertPreviewPixel(point: Vector2, oldColor: RGBA, newColor: RGBA): void {

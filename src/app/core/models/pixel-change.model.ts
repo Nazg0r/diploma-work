@@ -1,4 +1,4 @@
-export type RGBA = [number, number, number, number];
+import { RGBA } from './palette/color.model';
 
 export interface PixelChange {
   x: number;

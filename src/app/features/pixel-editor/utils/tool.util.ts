@@ -1,5 +1,5 @@
 import { Vector2 } from '../../../core/models/canvas.model';
-import { RGBA } from '../../../core/models/pixel-change.model';
+import { RGBA } from '../../../core/models/palette/color.model';
 
 export function getBrushPoints(center: Vector2, size: number): Vector2[] {
   const points: Vector2[] = [];
@@ -51,7 +51,7 @@ export function hexToRgba(hex: string, opacity = 1): RGBA {
   const g = parseInt(cleaned.substring(2, 4), 16);
   const b = parseInt(cleaned.substring(4, 6), 16);
   const a = Math.round(opacity * 255);
-  return [r, g, b, a];
+  return {r, g, b, a};
 }
 
 export function applyPerfectPixel(points: Vector2[]): Vector2[] {

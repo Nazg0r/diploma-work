@@ -68,10 +68,10 @@ export class PaintPixelsCommand implements MergeableCommand<PaintPixelsCommand> 
     for (const change of this.changes.values()) {
       const i = (change.y * layer.size.width + change.x) * 4;
       const color = kind === 'new' ? change.newColor : change.oldColor;
-      newData.data[i] = color[0];
-      newData.data[i + 1] = color[1];
-      newData.data[i + 2] = color[2];
-      newData.data[i + 3] = color[3];
+      newData.data[i] = color.r;
+      newData.data[i + 1] = color.g;
+      newData.data[i + 2] = color.b;
+      newData.data[i + 3] = color.a;
     }
 
     this.store.setLayerProperties(this.layerId, { data: newData });
