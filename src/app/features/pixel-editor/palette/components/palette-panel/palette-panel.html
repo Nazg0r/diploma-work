@@ -1,0 +1,65 @@
+<app-non-collapse-panel [panelId]="'palette'" [isResizable]="true">
+  <ng-container panel-content>
+    <div class="palette">
+      <div class="palette__swatches">
+        @for (color of colors(); track $index) {
+          <div
+            class="palette__swatch"
+            [class.palette__swatch--active]="isActive($index)"
+            [style.background-color]="color"
+            (click)="onSwatchClick($index)"
+            (dblclick)="onSwatchDoubleClick($index)"
+            (contextmenu)="onSwatchRightClick($index, $event)"
+          ></div>
+        }
+
+        <div class="palette__add" title="Add color" (click)="onAddColor()">
+          <app-icon name="plus" [size]="SP_ICON_SIZE" />
+        </div>
+      </div>
+    </div>
+ </ng-container>
+  <ng-container panel-footer>
+    <div class="palette-footer">
+      <div class="palette-footer__current">
+        <div
+          class="palette-footer__current-fg"
+          [style.background-color]="foreground()"
+          title="Foreground (click to edit)"
+          (click)="onForegroundClick()"
+        ></div>
+
+        <div
+          class="palette-footer__current-bg"
+          [style.background-color]="background()"
+          title="Background (click to edit)"
+          (click)="onBackgroundClick()"
+        ></div>
+
+        <app-icon
+          class="interactive-icon palette-footer__swap-btn"
+          title="Swap (X)"
+          name="swap"
+          [size]="SM_ICON_SIZE"
+          (click)="onSwap()"
+        />
+      </div>
+      <div class="palette-footer__tools">
+        <app-icon
+          class="palette__action-btn interactive-icon "
+          title="Palette settings"
+          name="settings"
+          [size]="SMX_ICON_SIZE"
+          (click)="onSettingsClick()"
+        />
+        <app-icon
+          class="palette__action-btn interactive-icon "
+          name="eyedropper"
+          title="Eyedropper"
+          [size]="SMX_ICON_SIZE"
+          (click)="onEyedropperClick()"
+        />
+      </div>
+    </div>
+  </ng-container>
+</app-non-collapse-panel>

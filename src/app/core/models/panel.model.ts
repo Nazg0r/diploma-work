@@ -1,6 +1,6 @@
 import { Size, Vector2 } from './canvas.model';
 
-export type PanelId = 'layers' | 'preview' | 'tileset' | 'grid' | 'history' | 'tools';
+export type PanelId = 'layers' | 'preview' | 'tileset' | 'grid' | 'history' | 'tools' | 'palette';
 export type PanelState = 'hidden' | 'collapsed' | 'expanded' | 'inactive';
 export type PanelAnchor = 'left' | 'bottom' | 'right' | 'none';
 

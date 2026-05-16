@@ -81,6 +81,18 @@ export const initialPanelSlices: PanelSlice = {
       maxSize: { width: 96, height: 336 },
       zIndex: BASE_Z_INDEX,
     },
+    palette: {
+      id: 'palette',
+      icon: '',
+      state: 'inactive',
+      anchor: 'left',
+      title: 'Palette',
+      position: { x: 0, y: 0 },
+      size: { width: 48, height: 256 },
+      minSize: { width: 48, height: 145 },
+      maxSize: { width: 198, height: 256 },
+      zIndex: BASE_Z_INDEX,
+    },
   },
   topZIndex: BASE_Z_INDEX,
 };

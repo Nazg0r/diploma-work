@@ -1,0 +1,109 @@
+$border: 1px solid var(--color-border);
+
+.palette {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  min-height: 0;
+  padding: calc(var(--space-2) - var(--size-border));
+  padding-bottom: var(--space-2);
+  gap: var(--gap-lg);
+
+  &__swatches {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    flex: 1 1 auto;
+    width: fit-content;
+    max-width: 100%;
+    min-height: 0;
+    margin: 0 auto;
+    overflow-y: auto;
+  }
+
+  &__swatch,
+  &__add {
+    width: var(--size-swatch);
+    height: var(--size-swatch);
+    aspect-ratio: 1;
+    border: $border;
+    margin-right: -1px;
+    margin-bottom: -1px;
+    cursor: pointer;
+    flex-shrink: 0;
+
+    &:hover {
+      border-color: var(--color-indicators);
+      z-index: 1;
+    }
+
+    &--active {
+      z-index: 1;
+      border: var(--size-border) solid var(--color-accent);
+    }
+  }
+
+  &__add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &-footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+
+    &__current {
+      margin: 0 auto;
+      position: relative;
+      width: var(--size-color-swap);
+      height: var(--size-color-swap);
+    }
+
+    &__current-fg,
+    &__current-bg {
+      position: absolute;
+      width: var(--size-color-current);
+      height: var(--size-color-current);
+      border: 1px solid var(--color-border);
+      cursor: pointer;
+
+      &:hover {
+        border-color: var(--color-indicators);
+      }
+    }
+
+    &__current-fg {
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    &__current-bg {
+      bottom: 0;
+      right: 0;
+    }
+
+    &__swap-btn {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      color: var(--color-text-primary);
+      z-index: 2;
+    }
+
+    &__tools {
+      display: flex;
+      flex-direction: row;
+      gap: 2px;
+      justify-content: center;
+      align-items: center;
+      border-top: var(--size-border) solid var(--color-border);
+      height: var(--size-panel-footer);
+    }
+  }
+}
