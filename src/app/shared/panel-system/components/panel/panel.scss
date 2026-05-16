@@ -141,68 +141,6 @@ $border: var(--size-border) solid var(--color-border);
   overflow: auto;
 }
 
-.resize-handle {
-  position: absolute;
-  z-index: 10;
-
-  &--n {
-    top: -$edge;
-    left: $corner;
-    right: $corner;
-    height: $edge * 2;
-    cursor: n-resize;
-  }
-  &--s {
-    bottom: -$edge;
-    left: $corner;
-    right: $corner;
-    height: $edge * 2;
-    cursor: s-resize;
-  }
-  &--e {
-    right: -$edge;
-    top: $corner;
-    bottom: $corner;
-    width: $edge * 2;
-    cursor: e-resize;
-  }
-  &--w {
-    left: -$edge;
-    top: $corner;
-    bottom: $corner;
-    width: $edge * 2;
-    cursor: w-resize;
-  }
-  &--en {
-    top: -$edge;
-    right: -$edge;
-    width: $corner * 2;
-    height: $corner * 2;
-    cursor: ne-resize;
-  }
-  &--es {
-    bottom: -$edge;
-    right: -$edge;
-    width: $corner * 2;
-    height: $corner * 2;
-    cursor: se-resize;
-  }
-  &--wn {
-    top: -$edge;
-    left: -$edge;
-    width: $corner * 2;
-    height: $corner * 2;
-    cursor: nw-resize;
-  }
-  &--ws {
-    bottom: -$edge;
-    left: -$edge;
-    width: $corner * 2;
-    height: $corner * 2;
-    cursor: sw-resize;
-  }
-}
-
 @keyframes peek-title {
   from {
     max-width: 0;

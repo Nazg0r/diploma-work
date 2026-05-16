@@ -6,7 +6,6 @@ import {
   SM_ICON_SIZE,
 } from '../../../../core/constants/size.constants';
 import { ARROW_ROTATION } from '../../../../core/models/anchor.model';
-import { Rect } from '../../../../core/models/canvas.model';
 import { Icon } from '../../../icons/components/icon/icon';
 import { PanelBaseDirective } from '../../directives/panel-base.directive';
 import { PanelDragDirective } from '../../directives/panel-drag.directive';
@@ -123,17 +122,5 @@ export class Panel extends PanelBaseDirective {
       Object.values(this.store.panels()),
     );
     this.store.updatePosition(this.id(), { x: anchorPosition.x, y: anchorPosition.y });
-  }
-
-  protected onSizeChange(rect: Rect): void {
-    const meta = this.anchorMeta();
-
-    this.store.updateSize(this.id(), { width: rect.width, height: rect.height });
-
-    const newPosition = meta.centered
-      ? { x: rect.x + rect.width / 2, y: rect.y }
-      : { x: rect.x, y: rect.y };
-
-    this.store.updatePosition(this.id(), newPosition);
   }
 }

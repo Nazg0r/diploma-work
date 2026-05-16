@@ -5,7 +5,7 @@ import { PanelAnchoringService } from '../../../core/services/panel-anchoring.se
 import { PanelLayoutService } from '../../../core/services/panel-layout.service';
 import { ViewportService } from '../../../core/services/viewport.service';
 import { ANCHOR_META } from '../../../core/models/anchor.model';
-import { Vector2 } from '../../../core/models/canvas.model';
+import { Rect, Vector2 } from '../../../core/models/canvas.model';
 
 @Directive()
 export abstract class PanelBaseDirective {
@@ -67,11 +67,23 @@ export abstract class PanelBaseDirective {
   }
 
   protected resetPositionToAnchor(): void {
-    this.store.resetSize(this.id());
+    // this.store.resetSize(this.id());
     const anchorPos = this.anchoringService.getAnchoredPosition(
       this.panel(),
       Object.values(this.store.panels()),
     );
     this.store.updatePosition(this.id(), { x: anchorPos.x, y: anchorPos.y });
+  }
+
+  protected onSizeChange(rect: Rect): void {
+    const meta = this.anchorMeta();
+
+    this.store.updateSize(this.id(), { width: rect.width, height: rect.height });
+
+    const newPosition = meta.centered
+      ? { x: rect.x + rect.width / 2, y: rect.y }
+      : { x: rect.x, y: rect.y };
+
+    this.store.updatePosition(this.id(), newPosition);
   }
 }

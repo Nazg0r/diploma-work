@@ -12,7 +12,6 @@ export const ToolStore = signalStore(
       patchState(store, {
         brushSize: Math.max(1, Math.min(MAX_BRUSH_SIZE, size)),
       }),
-    setColor: (color: string) => patchState(store, { color }),
     setPerfectPixel: (enabled: boolean) => patchState(store, { perfectPixel: enabled }),
     setOpacity: (opacity: number) =>
       patchState(store, { opacity: Math.max(0, Math.min(1, opacity)) }),

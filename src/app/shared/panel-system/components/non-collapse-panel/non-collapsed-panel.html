@@ -1,5 +1,18 @@
 @let p = panel();
 
+@if (isResizable()) {
+  @for (edge of ['n', 's', 'e', 'w', 'en', 'es', 'wn', 'ws']; track edge) {
+    <div
+      class="resize-handle"
+      [class]="'resize-handle--' + edge"
+      [appPanelResize]="edge"
+      [minSize]="p.minSize"
+      [maxSize]="p.maxSize"
+      (resizeChange)="onSizeChange($event)"
+    ></div>
+  }
+}
+
 <span class="non-collapse-panel__title" (pointerdown)="onHideClick($event)">
   {{ p.title }}
 </span>

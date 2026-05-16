@@ -1,6 +1,6 @@
 import { PartialStateUpdater } from '@ngrx/signals';
 import { HOTKEY_DEFAULTS } from '../../constants/hotkey-defaults.constants';
-import { HISTORY_SIZE_MAX_LIMIT, HISTORY_SIZE_MIN_LIMIT } from '../../constants/settings.constatns';
+import { HISTORY_SIZE_MAX_LIMIT, HISTORY_SIZE_MIN_LIMIT } from '../../constants/settings.constants';
 import { HotkeyAction, KeyCombo } from '../../models/hotkeys';
 import { SettingsSlice } from './settings.slice';
 
