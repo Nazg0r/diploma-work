@@ -9,9 +9,5 @@ export class PencilTool extends BaseBrushTool {
   public readonly id = 'pencil' as const;
   public readonly icon = 'pencil';
 
-  protected override getNewColor = (ctx: ToolContext): RGBA => hexToRgba(this.prepareHex(ctx));
-
-  private prepareHex(ctx: ToolContext) {
-    return ctx.color + (ctx.opacity * 255).toString(16);
-  }
+  protected override getNewColor = (ctx: ToolContext): RGBA => hexToRgba(ctx.color);
 }

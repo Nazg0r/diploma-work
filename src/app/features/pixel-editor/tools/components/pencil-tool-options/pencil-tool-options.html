@@ -2,7 +2,7 @@
   <span class="option__label">Size:</span>
   <app-slider
     class="option__slider"
-    [value]="store.brushSize()"
+    [value]="toolStore.brushSize()"
     [max]="MAX_BRUSH_SIZE"
     suffix=" px"
     (valueChange)="onBrushSizeChange($event)"
@@ -10,18 +10,9 @@
 </div>
 
 <div class="option">
-  <span class="option__label">Opacity:</span>
-  <app-slider
-    class="option__slider"
-    [value]="store.opacity() * 100"
-    (valueChange)="onOpacityChange($event)"
-  ></app-slider>
-</div>
-
-<div class="option">
   <span class="option__label">Perfect Pixel:</span>
   <app-checkbox
-    [checked]="store.perfectPixel()"
+    [checked]="toolStore.perfectPixel()"
     (change)="onPerfectPixelChange($event)"
   ></app-checkbox>
 </div>

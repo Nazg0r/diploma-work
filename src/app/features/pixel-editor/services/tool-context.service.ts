@@ -1,11 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { isPixelLayer } from '../../../core/models/layers';
 import { ToolContext } from '../../../core/models/tools/tool-context.model';
+import { ColorStore } from '../stores/color/color.store';
 import { SpriteLayerStore } from '../../../core/stores/layers';
 import { ToolStore } from '../stores/tools/tool.store';
 import { Tool } from '../tools/tool';
 import { ToolRegistry } from './tool-registry.service';
-import { ColorStore } from '../../../core/stores/color/color.store';
 
 @Injectable()
 export class ToolContextService {
@@ -28,7 +28,6 @@ export class ToolContextService {
       color: this.colorStore.foreground(),
       brushSize: this.toolStore.brushSize(),
       perfectPixel: this.toolStore.perfectPixel(),
-      opacity: this.toolStore.opacity(),
     };
   }
 }

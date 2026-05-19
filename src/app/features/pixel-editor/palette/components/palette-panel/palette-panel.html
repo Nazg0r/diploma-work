@@ -18,23 +18,31 @@
         </div>
       </div>
     </div>
- </ng-container>
+  </ng-container>
   <ng-container panel-footer>
     <div class="palette-footer">
       <div class="palette-footer__current">
         <div
           class="palette-footer__current-fg"
-          [style.background-color]="foreground()"
           title="Foreground (click to edit)"
           (click)="onForegroundClick()"
-        ></div>
+        >
+          <div
+            class="palette-footer__current-fg-color"
+            [style.background-color]="foreground()"
+          ></div>
+        </div>
 
         <div
           class="palette-footer__current-bg"
-          [style.background-color]="background()"
           title="Background (click to edit)"
           (click)="onBackgroundClick()"
-        ></div>
+        >
+          <div
+            class="palette-footer__current-fg-color"
+            [style.background-color]="background()"
+          ></div>
+        </div>
 
         <app-icon
           class="interactive-icon palette-footer__swap-btn"
@@ -46,14 +54,14 @@
       </div>
       <div class="palette-footer__tools">
         <app-icon
-          class="palette__action-btn interactive-icon "
+          class="palette__action-btn interactive-icon"
           title="Palette settings"
           name="settings"
           [size]="SMX_ICON_SIZE"
           (click)="onSettingsClick()"
         />
         <app-icon
-          class="palette__action-btn interactive-icon "
+          class="palette__action-btn interactive-icon"
           name="eyedropper"
           title="Eyedropper"
           [size]="SMX_ICON_SIZE"

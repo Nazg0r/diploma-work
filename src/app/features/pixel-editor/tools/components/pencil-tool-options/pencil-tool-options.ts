@@ -1,11 +1,7 @@
-import { Component, inject, signal } from '@angular/core';
-import { ToolStore } from '../../../stores/tools/tool.store';
+import { Component, inject } from '@angular/core';
+import { MAX_BRUSH_SIZE } from '../../../../../core/constants/tools.constants';
 import { Checkbox, Slider } from '../../../../../shared/building-blocks/components';
-import {
-  INITIAL_BRUSH_SIZE,
-  MAX_BRUSH_SIZE,
-  OPACITY_STEP,
-} from '../../../../../core/constants/tools.constants';
+import { ToolStore } from '../../../stores/tools/tool.store';
 
 @Component({
   selector: 'app-pencil-tool-options',
@@ -14,20 +10,15 @@ import {
   styleUrl: './pencil-tool-options.scss',
 })
 export class PencilToolOptions {
-  protected readonly store = inject(ToolStore);
+  protected readonly toolStore = inject(ToolStore);
+
+  protected readonly MAX_BRUSH_SIZE = MAX_BRUSH_SIZE;
 
   protected onBrushSizeChange(size: number): void {
-    this.store.setBrushSize(size);
-  }
-
-  protected onOpacityChange(percent: number): void {
-    this.store.setOpacity(percent / 100);
+    this.toolStore.setBrushSize(size);
   }
 
   protected onPerfectPixelChange(checked: boolean): void {
-    this.store.setPerfectPixel(checked);
+    this.toolStore.setPerfectPixel(checked);
   }
-
-  protected readonly MAX_BRUSH_SIZE = MAX_BRUSH_SIZE;
-  protected readonly OPACITY_STEP = OPACITY_STEP;
 }

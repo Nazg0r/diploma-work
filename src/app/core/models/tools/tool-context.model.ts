@@ -10,5 +10,4 @@ export interface ToolContext {
   color: string;
   brushSize: number;
   perfectPixel: boolean;
-  opacity: number;
 }

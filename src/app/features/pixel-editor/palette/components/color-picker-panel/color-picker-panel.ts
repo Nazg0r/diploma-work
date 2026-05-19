@@ -1,17 +1,19 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { SM_ICON_SIZE } from '../../../../../core/constants/size.constants';
-import { ColorStore } from '../../../../../core/stores/color/color.store';
+import { ColorStore } from '../../../stores/color/color.store';
 import { Field, Select, TextInput } from '../../../../../shared/building-blocks/components';
 import { Icon } from '../../../../../shared/icons/components/icon/icon';
 import { NonCollapsedPanel } from '../../../../../shared/panel-system/components/non-collapse-panel/non-collapsed-panel';
 import { INPUT_FIELD_WIDTH } from '../../../constants/color-picker.constants';
 import {
   hexToHsva,
+  hexToRgba,
   hslToRgb,
   hsvToRgb,
   isValidHex,
   rgbaToHex,
   rgbaToHsla,
+  rgbaToHsva,
   rgbToHsv,
 } from '../../../utils/color.util';
 import { ChannelSlider } from '../channel-slider/channel-slider';
@@ -241,11 +243,15 @@ export class ColorPickerPanel {
   }
 
   private applyHex(hex: string): void {
-    const hsva = hexToHsva(hex);
+    const rgba = hexToRgba(hex);
+    const hsva = rgbaToHsva(rgba);
+    this.r.set(rgba.r);
+    this.g.set(rgba.g);
+    this.b.set(rgba.b);
     this.h.set(hsva.h);
     this.s.set(hsva.s);
     this.v.set(hsva.v);
-    this.a.set(Math.round(hsva.a));
+    this.a.set(Math.round(rgba.a));
   }
 
   private syncToStore(): void {

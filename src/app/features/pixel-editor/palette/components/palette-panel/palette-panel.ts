@@ -5,7 +5,7 @@ import {
   SMX_ICON_SIZE,
   SP_ICON_SIZE,
 } from '../../../../../core/constants/size.constants';
-import { ColorStore } from '../../../../../core/stores/color/color.store';
+import { ColorStore } from '../../../stores/color/color.store';
 import { PaletteStore } from '../../../../../core/stores/palette/palette.store';
 import { Icon } from '../../../../../shared/icons/components/icon/icon';
 import { NonCollapsedPanel } from '../../../../../shared/panel-system/components/non-collapse-panel/non-collapsed-panel';
