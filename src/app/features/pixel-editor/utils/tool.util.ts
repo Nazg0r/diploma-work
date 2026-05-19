@@ -45,15 +45,6 @@ export function bresenhamLine(from: Vector2, to: Vector2): Vector2[] {
   return points;
 }
 
-export function hexToRgba(hex: string, opacity = 1): RGBA {
-  const cleaned = hex.replace('#', '');
-  const r = parseInt(cleaned.substring(0, 2), 16);
-  const g = parseInt(cleaned.substring(2, 4), 16);
-  const b = parseInt(cleaned.substring(4, 6), 16);
-  const a = Math.round(opacity * 255);
-  return {r, g, b, a};
-}
-
 export function applyPerfectPixel(points: Vector2[]): Vector2[] {
   if (points.length < 3) return points;
 
