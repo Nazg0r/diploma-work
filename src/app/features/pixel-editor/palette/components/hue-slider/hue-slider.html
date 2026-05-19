@@ -1,0 +1,12 @@
+<canvas
+  class="hue-slider__canvas"
+  [width]="width"
+  [height]="height"
+  [style]="hueSliderStyles()"
+  (pointerdown)="onPointerDown($event)"
+  #canvas
+></canvas>
+<div
+  class="hue-slider__cursor"
+  [style.top.px]="cursorY()"
+></div>

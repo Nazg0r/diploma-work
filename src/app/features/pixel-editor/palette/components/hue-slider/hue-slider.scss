@@ -1,0 +1,26 @@
+$shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
+$minus-pace-1: calc(0px - var(--space-1));
+
+:host {
+  position: relative;
+  flex-shrink: 0;
+  cursor: ns-resize;
+  user-select: none;
+}
+
+.hue-slider__canvas {
+  display: block;
+  border: var(--size-border) solid var(--color-border);
+}
+
+.hue-slider__cursor {
+  position: absolute;
+  left: $minus-pace-1;
+  right: $minus-pace-1;
+  height: var(--space-1);
+  background: transparent;
+  border: var(--size-border) solid var(--color-indicators);
+  box-shadow: $shadow;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
