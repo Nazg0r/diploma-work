@@ -1,0 +1,9 @@
+<canvas
+  class="sv-picker__canvas"
+  [width]="width"
+  [height]="height"
+  [style]="svPickerStyles()"
+  (pointerdown)="onPointerDown($event)"
+  #canvas
+></canvas>
+<div class="sv-picker__cursor" [style.left.px]="cursorX()" [style.top.px]="cursorY()"></div>

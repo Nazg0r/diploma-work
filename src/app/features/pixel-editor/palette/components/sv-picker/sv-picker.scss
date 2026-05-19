@@ -1,0 +1,25 @@
+$shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
+
+:host {
+  position: relative;
+  width: 100%;
+  cursor: crosshair;
+  user-select: none;
+}
+
+.sv-picker__canvas {
+  display: block;
+  border: var(--size-border) solid var(--color-border);
+}
+
+.sv-picker__cursor {
+  position: absolute;
+  width: var(--size-color-picker-cursor);
+  height: var(--size-color-picker-cursor);
+  border-radius: 50%;
+  border: var(--size-border) solid var(--color-indicators);
+  box-shadow: $shadow;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  background: transparent;
+}
