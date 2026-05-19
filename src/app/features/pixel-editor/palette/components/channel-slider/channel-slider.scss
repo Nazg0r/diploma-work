@@ -1,0 +1,55 @@
+@use '../../../../../../styles/mixins/pixel-editor-mixins' as mixins;
+
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-2);
+  user-select: none;
+}
+
+.channel-slider {
+  &__label {
+    font-family: var(--font-mono), sans-serif;
+    color: var(--color-text-primary);
+    font-size: var(--font-size-md);
+    flex: 0;
+  }
+
+  &__track {
+    position: relative;
+    height: var(--size-color-picker-track-height);
+    border: var(--size-border) solid var(--color-border);
+    cursor: ew-resize;
+    flex: 1;
+    @include mixins.checkerboard(8px);
+
+    &-color {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__thumb {
+    position: absolute;
+    top: -3px;
+    bottom: -3px;
+    width: var(--size-color-picker-track-thumb-width);
+    height: calc(2px + var(--size-color-picker-track-height));
+    background: var(--color-indicators);
+    border: 1px solid var(--color-border);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  &__value {
+    width: var(--size-color-picker-field-width);
+    background: var(--color-bg-input);
+    border: var(--size-border) solid var(--color-border);
+    text-align: center;
+    padding: 2px var(--space-1);
+    font-family: var(--font-content), sans-serif;
+    font-size: var(--font-size-md);
+    color: var(--color-text-primary);
+  }
+}

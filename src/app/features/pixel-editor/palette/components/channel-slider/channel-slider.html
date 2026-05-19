@@ -1,0 +1,9 @@
+<span class="channel-slider__label">{{ label() }}</span>
+<div
+  class="channel-slider__track"
+  (pointerdown)="onPointerDown($event)"
+>
+  <div class="channel-slider__track-color" [style.background]="trackGradient()"></div>
+  <div class="channel-slider__thumb" [style.left.%]="thumbPercent()"></div>
+</div>
+<span class="channel-slider__value">{{ value() }}</span>
