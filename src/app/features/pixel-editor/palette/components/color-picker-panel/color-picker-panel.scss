@@ -1,0 +1,58 @@
+@use '../../../../../../styles/mixins/pixel-editor-mixins' as mixins;
+
+.color-picker-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-md);
+  padding: var(--space-2);
+
+  &__main {
+    display: flex;
+    gap: var(--space-2);
+    app-sv-picker {
+      flex: 1;
+    }
+  }
+
+  &__editor {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &__fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  &__swatch-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+
+    .swatch {
+      width: var(--size-color-picker-swatch);
+      height: var(--size-color-picker-swatch);
+      border: var(--size-border) solid var(--color-border);
+      @include mixins.checkerboard(8px);
+
+      &-color {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .swatch-actions {
+      display: flex;
+      gap: var(--space-2);
+    }
+  }
+
+  &__channels {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+  }
+}

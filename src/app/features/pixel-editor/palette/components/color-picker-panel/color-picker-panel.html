@@ -1,0 +1,157 @@
+<app-non-collapse-panel [panelId]="'color-picker'">
+  <ng-container panel-content>
+    <div class="color-picker-panel">
+      <div class="color-picker-panel__main">
+        <app-sv-picker
+          [hue]="h()"
+          [saturation]="s()"
+          [value]="v()"
+          (cursorChange)="onSvChange($event)"
+        />
+        <app-hue-slider [hue]="h()" (hueChange)="onHueChange($event)" />
+      </div>
+
+      <div class="color-picker-panel__editor">
+        <div class="color-picker-panel__fields">
+          <app-field label="Hex">
+            <app-text-input
+              [value]="hexDraft()"
+              [style.width]="INPUT_FIELD_WIDTH + 'px'"
+              (valueChange)="onHexInput($event)"
+              (commit)="onHexCommit()"
+              (attention)="onHexFocus()"
+            />
+          </app-field>
+          <app-field label="Units">
+            <app-select
+              [value]="mode()"
+              [style.width]="INPUT_FIELD_WIDTH + 'px'"
+              [options]="modeOptions"
+              (valueChange)="onModeChange($event)"
+            />
+          </app-field>
+        </div>
+
+        <div class="color-picker-panel__swatch-block">
+          <div class="swatch">
+            <div class="swatch-color" [style.background-color]="currentColor()"></div>
+          </div>
+          <div class="swatch-actions">
+            <app-icon
+              class="interactive-icon"
+              name="plus"
+              title="Add to palette"
+              [size]="SM_ICON_SIZE"
+              (click)="onAddToPalette()"
+            />
+            <app-icon
+              class="interactive-icon"
+              name="eyedropper"
+              title="Eyedropper"
+              [size]="SM_ICON_SIZE"
+              (click)="onPickFromCanvas()"
+            />
+          </div>
+        </div>
+      </div>
+      @if (mode() === 'RGBA') {
+        <div class="color-picker-panel__channels">
+          <app-channel-slider
+            label="R"
+            [value]="rgba().r"
+            [trackColors]="rTrackColors()"
+            (valueChange)="onRChange($event)"
+          />
+          <app-channel-slider
+            label="G"
+            [value]="rgba().g"
+            [trackColors]="gTrackColors()"
+            (valueChange)="onGChange($event)"
+          />
+          <app-channel-slider
+            label="B"
+            [value]="rgba().b"
+            [trackColors]="bTrackColors()"
+            (valueChange)="onBChange($event)"
+          />
+          <app-channel-slider
+            label="A"
+            [value]="a()"
+            [trackColors]="aTrackColors()"
+            (valueChange)="onAChange($event)"
+          />
+        </div>
+      }
+
+      @if (mode() === 'HSVA') {
+        <div class="color-picker-panel__channels">
+          <app-channel-slider
+            label="H"
+            [value]="hsva().h"
+            [min]="0"
+            [max]="360"
+            [trackColors]="hTrackColors()"
+            (valueChange)="onHsvHChange($event)"
+          />
+          <app-channel-slider
+            label="S"
+            [value]="hsva().s"
+            [min]="0"
+            [max]="100"
+            [trackColors]="hsvSTrackColors()"
+            (valueChange)="onHsvSChange($event)"
+          />
+          <app-channel-slider
+            label="V"
+            [value]="hsva().v"
+            [min]="0"
+            [max]="100"
+            [trackColors]="vTrackColors()"
+            (valueChange)="onHsvVChange($event)"
+          />
+          <app-channel-slider
+            label="A"
+            [value]="a()"
+            [trackColors]="aTrackColors()"
+            (valueChange)="onAChange($event)"
+          />
+        </div>
+      }
+
+      @if (mode() === 'HSLA') {
+        <div class="color-picker-panel__channels">
+          <app-channel-slider
+            label="H"
+            [value]="hsla().h"
+            [min]="0"
+            [max]="360"
+            [trackColors]="hTrackColors()"
+            (valueChange)="onHslHChange($event)"
+          />
+          <app-channel-slider
+            label="S"
+            [value]="hsla().s"
+            [min]="0"
+            [max]="100"
+            [trackColors]="sTrackColors()"
+            (valueChange)="onHslSChange($event)"
+          />
+          <app-channel-slider
+            label="L"
+            [value]="hsla().l"
+            [min]="0"
+            [max]="100"
+            [trackColors]="lTrackColors()"
+            (valueChange)="onHslLChange($event)"
+          />
+          <app-channel-slider
+            label="A"
+            [value]="a()"
+            [trackColors]="aTrackColors()"
+            (valueChange)="onAChange($event)"
+          />
+        </div>
+      }
+    </div>
+  </ng-container>
+</app-non-collapse-panel>
